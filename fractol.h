@@ -16,7 +16,8 @@
 # include <stdlib.h>
 # include <fcntl.h>
 # include <math.h>
-# include <mlx.h>
+# include "./minilibx_macos/mlx.h"
+// # include <mlx.h>
 # include "./libft/libft.h"
 # include <string.h>
 
@@ -30,6 +31,26 @@ typedef struct	s_data
 	int		y;
 	int		col;
 }				t_data;
+
+typedef struct	s_scale
+{
+	int		x;
+	int		y;
+	double	new_re;
+	double	new_im;
+	double	old_re;
+	double	old_im;
+	int		iter;
+	int		num_iter;
+	double	c_re;
+	double	c_im;
+	double	min_scale_width;
+	double	max_scale_width;
+	double	min_scale_len;
+	double	max_scale_len;
+	double	x_scale;
+	double	y_scale;
+}				t_scale;
 
 int		my_err(int errn);
 void	open_window(t_data *win, char *fract_name);

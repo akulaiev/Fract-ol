@@ -13,94 +13,48 @@
 #include "fractol.h"
 #include <stdio.h>
 
+void	fract_scale(t_data *win, t_scale *scl)
+{
+	scl->c_re = -0.7;
+	scl->c_im = 0.27015;
+	scl->min_scale_width = -2.5;
+	scl->max_scale_width = 1;
+	scl->min_scale_len = -1;
+	scl->max_scale_len = 1;
+	scl->x_scale = scl->x_scale = (scl->max_scale_width - scl->min_scale_width) / (win->win_width);
+	scl->y_scale = (scl->max_scale_len - scl->min_scale_len) / (win->win_length);
+}
+
 void	set_julia(t_data *win)
 {
-	int		x;
-	int		y;
-	double	min_scale_width;
-	double	max_scale_width;
-	double	min_scale_len;
-	double	max_scale_len;
+	t_scale	scl;
 
-	double	x_scale;
-	double	y_scale;
-
-	double	new_re;
-	double	new_im;
-	double	old_re;
-	double	old_im;
-
-	int		iter;
-	int		num_iter;
-
-	double	c_re;
-	double	c_im;	
-
-	c_re = -0.7;
-  	c_im = 0.27015;
-
-	min_scale_width = -2.5;
-	max_scale_width = 1;
-	min_scale_len = -1;
-	max_scale_len = 1;
-
-	x_scale = (max_scale_width - min_scale_width) / (win->win_width - 0);
-	y_scale = (max_scale_len - min_scale_len) / (win->win_length - 0);
-
-	x = 0;
-	while (x < win->win_width)
+	scl.x = -1;
+	fract_scale(win, &scl);
+	while (++scl.x < win->win_width)
 	{
-		y = 0;
-		while (y < win->win_length)
+		scl.y = -1;
+		while (++scl.y < win->win_length)
 		{
-			iter = 0;
-			num_iter = 113;
-			new_re = x * x_scale;
-			new_im = y * y_scale;
-			while (iter < num_iter)
+			scl.iter = -1;
+			scl.num_iter = 150;
+			scl.new_re = (scl.x - win->win_width / 2) * scl.x_scale;
+			scl.new_im = (scl.y - win->win_length / 2) * scl.y_scale;
+			while ((++scl.iter < scl.num_iter && (scl.new_re * scl.new_re + scl.new_im * scl.new_im < 4)))
 			{
-				old_re = new_re;
-				old_im = new_im;
-				new_re = (old_re * old_re) - (old_im * old_im) + c_re;
-				new_im = (2 * old_re * old_im) + c_im;
-				if (new_re * new_re + new_im * new_im > 4)
-					break;
-				iter++;
+				scl.old_re = scl.new_re;
+				scl.old_im = scl.new_im;
+				scl.new_re = (scl.old_re * scl.old_re) - (scl.old_im * scl.old_im) + scl.c_re;
+				scl.new_im = (2 * scl.old_re * scl.old_im) + scl.c_im;
 			}
-			if (iter == num_iter)
-				mlx_pixel_put(win->mlx_p, win->mlx_nw, x, y, 0xed0488);
+			if (scl.iter == scl.num_iter)
+				mlx_pixel_put(win->mlx_p, win->mlx_nw, scl.x, scl.y, scl.iter % 256 + 255 + 255 * (scl.iter < scl.num_iter));
 			else
-				mlx_pixel_put(win->mlx_p, win->mlx_nw, x, y, 0x333333);
-			y++;
+				mlx_pixel_put(win->mlx_p, win->mlx_nw, scl.x, scl.y, 0xc8daf7);
 		}
-		x++;
 	}
 
-	// For each pixel (x, y) on the screen, do:
-	// {
-	//     zx = scaled x coordinate of pixel (scaled to lie in the Mandelbrot X scale (-2.5, 1))
-	//        // zx represents the real part of z
-	//     zy = scaled y coordinate of pixel (scaled to lie in the Mandelbrot Y scale (-1, 1))
-	//        // zy represents the imaginary part of z 
-
-	//     iteration = 0
-	//     max_iteration = 1000
-	  
-	//     while (zx*zx + zy*zy < 4  AND  iteration < max_iteration) 
-	//     {
-	//         xtemp = zx*zx - zy*zy
-	//         zy = 2*zx*zy  + cy 
-	//         zx = xtemp + cx
-	    
-	//         iteration = iteration + 1 
-	//     }
-	  
-	//     if (iteration == max_iteration)
-	//         return black;
-	//     else
-	//         return iteration;
-	// }
-
+	// https://ru.wikipedia.org/wiki/HSV_(цветовая_модель)
 	// http://grafika.me/node/55
 	// http://lodev.org/cgtutor/juliamandelbrot.html
 }
