@@ -65,16 +65,11 @@ void	set_julia(t_data *win)
 			cont_ind = scl.num_iter + 1 - (log(2) / z_n) / log (2);
 			scl.max_col = rainbow(cont_ind);
 			mlx_pixel_put(win->mlx_p, win->mlx_nw, scl.x, scl.y, (scl.iter * (scl.max_col / cont_ind)));
-
-			// if (scl.iter == scl.num_iter)
-			// mlx_pixel_put(win->mlx_p, win->mlx_nw, scl.x, scl.y, scl.iter % 256 + 255 + 255 * (scl.iter < scl.num_iter));
-			// else
-			// 	mlx_pixel_put(win->mlx_p, win->mlx_nw, scl.x, scl.y, 0xc8daf7);
 		}
 	}
-
-	//http://www.paridebroggi.com/2015/05/fractal-continuous-coloring.html
 	//https://solarianprogrammer.com/2013/02/28/mandelbrot-set-cpp-11/
+	//http://www.paridebroggi.com/2015/05/fractal-continuous-coloring.html
+
 }
 
 void	open_window(t_data *win, char *fract_name)
