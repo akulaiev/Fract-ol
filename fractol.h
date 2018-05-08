@@ -50,6 +50,7 @@ typedef struct	s_scale
 	double	max_scale_len;
 	double	x_scale;
 	double	y_scale;
+	int		max_col;
 }				t_scale;
 
 int		my_err(int errn);

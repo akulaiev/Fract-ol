@@ -21,13 +21,27 @@ void	fract_scale(t_data *win, t_scale *scl)
 	scl->max_scale_width = 1;
 	scl->min_scale_len = -1;
 	scl->max_scale_len = 1;
-	scl->x_scale = scl->x_scale = (scl->max_scale_width - scl->min_scale_width) / (win->win_width);
+	scl->x_scale = (scl->max_scale_width - scl->min_scale_width) / (win->win_width);
 	scl->y_scale = (scl->max_scale_len - scl->min_scale_len) / (win->win_length);
 }
+
+int		rainbow(int i)
+{
+	int		r;
+	int		g;
+	int		b;
+
+	r = sin(0.1 * i + 4) * 25 + 127;
+	g = sin(0.2 * i + 2) * 25 + 127;
+	b = sin(0.3 * i + 1) * 25 + 127;
+	return ((r << 16) + (g << 8) + b);
+}	
 
 void	set_julia(t_data *win)
 {
 	t_scale	scl;
+	int		cont_ind;
+	int		z_n;
 
 	scl.x = -1;
 	fract_scale(win, &scl);
@@ -47,16 +61,20 @@ void	set_julia(t_data *win)
 				scl.new_re = (scl.old_re * scl.old_re) - (scl.old_im * scl.old_im) + scl.c_re;
 				scl.new_im = (2 * scl.old_re * scl.old_im) + scl.c_im;
 			}
-			if (scl.iter == scl.num_iter)
-				mlx_pixel_put(win->mlx_p, win->mlx_nw, scl.x, scl.y, scl.iter % 256 + 255 + 255 * (scl.iter < scl.num_iter));
-			else
-				mlx_pixel_put(win->mlx_p, win->mlx_nw, scl.x, scl.y, 0xc8daf7);
+			z_n = sqrt(scl.new_re * scl.new_re + scl.new_im * scl.new_im);
+			cont_ind = scl.num_iter + 1 - (log(2) / z_n) / log (2);
+			scl.max_col = rainbow(cont_ind);
+			mlx_pixel_put(win->mlx_p, win->mlx_nw, scl.x, scl.y, (scl.iter * (scl.max_col / cont_ind)));
+
+			// if (scl.iter == scl.num_iter)
+			// mlx_pixel_put(win->mlx_p, win->mlx_nw, scl.x, scl.y, scl.iter % 256 + 255 + 255 * (scl.iter < scl.num_iter));
+			// else
+			// 	mlx_pixel_put(win->mlx_p, win->mlx_nw, scl.x, scl.y, 0xc8daf7);
 		}
 	}
 
-	// https://ru.wikipedia.org/wiki/HSV_(цветовая_модель)
-	// http://grafika.me/node/55
-	// http://lodev.org/cgtutor/juliamandelbrot.html
+	//http://www.paridebroggi.com/2015/05/fractal-continuous-coloring.html
+	//https://solarianprogrammer.com/2013/02/28/mandelbrot-set-cpp-11/
 }
 
 void	open_window(t_data *win, char *fract_name)
