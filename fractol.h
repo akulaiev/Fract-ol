@@ -30,6 +30,9 @@ typedef struct	s_data
 	int		x;
 	int		y;
 	int		col;
+	int		move_right;
+	int		move_down;
+	int		enlarge;
 }				t_data;
 
 typedef struct	s_scale
@@ -44,17 +47,15 @@ typedef struct	s_scale
 	int		num_iter;
 	double	c_re;
 	double	c_im;
-	double	min_scale_width;
-	double	max_scale_width;
-	double	min_scale_len;
-	double	max_scale_len;
-	double	x_scale;
-	double	y_scale;
 	int		max_col;
+	int		z_n;
+	double	cont_ind;
 }				t_scale;
 
 int		my_err(int errn);
+void	set_julia(t_data *win);
 void	open_window(t_data *win, char *fract_name);
 int		key_react(int keycode, void *param);
+void	pic_scale(int keycode, void *param);
 
 #endif

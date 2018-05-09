@@ -13,38 +13,41 @@
 #include "fractol.h"
 #include <stdio.h>
 
-void	fract_scale(t_data *win, t_scale *scl)
-{
-	scl->c_re = -0.7;
-	scl->c_im = 0.27015;
-	scl->min_scale_width = -2.5;
-	scl->max_scale_width = 1;
-	scl->min_scale_len = -1;
-	scl->max_scale_len = 1;
-	scl->x_scale = (scl->max_scale_width - scl->min_scale_width) / (win->win_width);
-	scl->y_scale = (scl->max_scale_len - scl->min_scale_len) / (win->win_length);
-}
-
-int		rainbow(int i)
+int		colour_fract(double i)
 {
 	int		r;
 	int		g;
 	int		b;
+	int		n3;
+	int		n;
+	int		nn;
+	int		c;
 
-	r = sin(0.1 * i + 4) * 25 + 127;
-	g = sin(0.2 * i + 2) * 25 + 127;
-	b = sin(0.3 * i + 1) * 25 + 127;
+	c = 256;
+	n3 = c * c * c;
+	n = (int)(i * (double)n3);
+	b = n / (c * c);
+	nn = n - b * c * c;
+	r = nn / c;
+	g = nn - r * c;
+
+	r = (int)(9 * (1 - i) * i * i * i * 255);
+	g = (int)(15 * (1 - i) * (1 - i) * i * i * 255);
+	b =  (int)(8.5 * (1 - i) * (1 - i) * (1 - i) * i * 255);
+
+	r = sin(0.1 * i + 4) * 125 + 127;
+	g = sin(0.2 * i + 2) * 125 + 127;
+	b = sin(0.3 * i + 1) * 125 + 127;
 	return ((r << 16) + (g << 8) + b);
 }	
 
 void	set_julia(t_data *win)
 {
 	t_scale	scl;
-	int		cont_ind;
-	int		z_n;
 
+	scl.c_re = -0.7;
+	scl.c_im = 0.27015;
 	scl.x = -1;
-	fract_scale(win, &scl);
 	while (++scl.x < win->win_width)
 	{
 		scl.y = -1;
@@ -52,8 +55,8 @@ void	set_julia(t_data *win)
 		{
 			scl.iter = -1;
 			scl.num_iter = 150;
-			scl.new_re = (scl.x - win->win_width / 2) * scl.x_scale;
-			scl.new_im = (scl.y - win->win_length / 2) * scl.y_scale;
+			scl.new_re = 1.5 * (scl.x - win->win_width / 2) / (0.5 * win->enlarge * win->win_width) + win->move_right;
+      		scl.new_im = (scl.y - win->win_length / 2) / (0.5 * win->enlarge * win->win_length) + win->move_down;
 			while ((++scl.iter < scl.num_iter && (scl.new_re * scl.new_re + scl.new_im * scl.new_im < 4)))
 			{
 				scl.old_re = scl.new_re;
@@ -61,10 +64,10 @@ void	set_julia(t_data *win)
 				scl.new_re = (scl.old_re * scl.old_re) - (scl.old_im * scl.old_im) + scl.c_re;
 				scl.new_im = (2 * scl.old_re * scl.old_im) + scl.c_im;
 			}
-			z_n = sqrt(scl.new_re * scl.new_re + scl.new_im * scl.new_im);
-			cont_ind = scl.num_iter + 1 - (log(2) / z_n) / log (2);
-			scl.max_col = rainbow(cont_ind);
-			mlx_pixel_put(win->mlx_p, win->mlx_nw, scl.x, scl.y, (scl.iter * (scl.max_col / cont_ind)));
+			scl.z_n = sqrt(scl.new_re * scl.new_re + scl.new_im * scl.new_im);
+			scl.cont_ind = scl.iter + 1 - (log(2) / scl.z_n) / log(2);
+			scl.max_col += colour_fract(scl.cont_ind / (double)scl.num_iter);
+			mlx_pixel_put(win->mlx_p, win->mlx_nw, scl.x, scl.y, (scl.iter * (scl.max_col / scl.cont_ind)));
 		}
 	}
 	//https://solarianprogrammer.com/2013/02/28/mandelbrot-set-cpp-11/
@@ -78,8 +81,11 @@ void	open_window(t_data *win, char *fract_name)
 	win->win_length = 950;
 	win->mlx_p = mlx_init();
 	win->mlx_nw = mlx_new_window(win->mlx_p, win->win_width, win->win_length, fract_name);
-	mlx_hook(win->mlx_nw, 2, 5, key_react, (void*)&win);
-		set_julia(win);
+	win->enlarge = 1;
+	win->move_down = 0;
+	win->move_right = 0;
+	mlx_hook(win->mlx_nw, 2, 5, key_react, (void*)win);
+	set_julia(win);
 	mlx_loop(win->mlx_p);
 }
 
