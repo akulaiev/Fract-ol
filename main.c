@@ -13,31 +13,15 @@
 #include "fractol.h"
 #include <stdio.h>
 
-int		colour_fract(double i)
+int		colour_fract(double i, t_data *win)
 {
 	int		r;
 	int		g;
 	int		b;
-	int		n3;
-	int		n;
-	int		nn;
-	int		c;
 
-	c = 256;
-	n3 = c * c * c;
-	n = (int)(i * (double)n3);
-	b = n / (c * c);
-	nn = n - b * c * c;
-	r = nn / c;
-	g = nn - r * c;
-
-	r = (int)(9 * (1 - i) * i * i * i * 255);
-	g = (int)(15 * (1 - i) * (1 - i) * i * i * 255);
-	b =  (int)(8.5 * (1 - i) * (1 - i) * (1 - i) * i * 255);
-
-	r = sin(0.1 * i + 4) * 125 + 127;
-	g = sin(0.2 * i + 2) * 125 + 127;
-	b = sin(0.3 * i + 1) * 125 + 127;
+	r = (int)(win->c_r * (1 - i) * i * i * i * 255);
+	g = (int)(win->c_g * (1 - i) * (1 - i) * i * i * 255);
+	b = (int)(win->c_b * (1 - i) * (1 - i) * (1 - i) * i * 255);
 	return ((r << 16) + (g << 8) + b);
 }	
 
@@ -56,7 +40,7 @@ void	set_julia(t_data *win)
 			scl.iter = -1;
 			scl.num_iter = 150;
 			scl.new_re = 1.5 * (scl.x - win->win_width / 2) / (0.5 * win->enlarge * win->win_width) + win->move_right;
-      		scl.new_im = (scl.y - win->win_length / 2) / (0.5 * win->enlarge * win->win_length) + win->move_down;
+			scl.new_im = (scl.y - win->win_length / 2) / (0.5 * win->enlarge * win->win_length) + win->move_down;
 			while ((++scl.iter < scl.num_iter && (scl.new_re * scl.new_re + scl.new_im * scl.new_im < 4)))
 			{
 				scl.old_re = scl.new_re;
@@ -64,19 +48,19 @@ void	set_julia(t_data *win)
 				scl.new_re = (scl.old_re * scl.old_re) - (scl.old_im * scl.old_im) + scl.c_re;
 				scl.new_im = (2 * scl.old_re * scl.old_im) + scl.c_im;
 			}
-			scl.z_n = sqrt(scl.new_re * scl.new_re + scl.new_im * scl.new_im);
-			scl.cont_ind = scl.iter + 1 - (log(2) / scl.z_n) / log(2);
-			scl.max_col += colour_fract(scl.cont_ind / (double)scl.num_iter);
-			mlx_pixel_put(win->mlx_p, win->mlx_nw, scl.x, scl.y, (scl.iter * (scl.max_col / scl.cont_ind)));
+			scl.max_col = colour_fract(((double)scl.iter / (double)scl.num_iter), win);
+			mlx_pixel_put(win->mlx_p, win->mlx_nw, scl.x, scl.y, scl.max_col);
 		}
 	}
-	//https://solarianprogrammer.com/2013/02/28/mandelbrot-set-cpp-11/
-	//http://www.paridebroggi.com/2015/05/fractal-continuous-coloring.html
-
+	// http://csharphelper.com/blog/2014/07/draw-a-mandelbrot-set-fractal-with-smoothly-shaded-colors-in-c/
 }
 
 void	open_window(t_data *win, char *fract_name)
 {
+	// void	*mlx_mw;
+
+	// mlx_mw = mlx_new_window(win->mlx_p, 350, 350, "Menu:");
+
 	win->win_width = 950;
 	win->win_length = 950;
 	win->mlx_p = mlx_init();
@@ -84,19 +68,29 @@ void	open_window(t_data *win, char *fract_name)
 	win->enlarge = 1;
 	win->move_down = 0;
 	win->move_right = 0;
+	win->c_r = 9;
+	win->c_g = 9;
+	win->c_b = 9;
 	mlx_hook(win->mlx_nw, 2, 5, key_react, (void*)win);
 	set_julia(win);
 	mlx_loop(win->mlx_p);
 }
 
-int		my_err(int errn)
+int		print_menu(int errn, t_data *win)
 {
+	char	*name;
+
 	if (errn == 1)
-	{
 		write(2, "usage: ./fractol [fract name]\n", 30);
-		write(2, "available fractals:\n", 20);
-		write(2, "-> Mandelbrot\n", 14);
-		write(2, "-> Julia\n", 9);
+	write(2, "available fractals:\n", 20);
+	write(2, "-> 1. Mandelbrot\n", 17);
+	write(2, "-> 2. Julia\n", 12);
+	while (get_next_line(0, &name))
+	{
+		if (!ft_strcmp("Julia", name) || !ft_strcmp("2", name))
+			open_window(win, "Julia");
+		else
+			print_menu(1, win);
 	}
 	return (errn);
 }
@@ -105,12 +99,14 @@ int		main(int argc, char **argv)
 {
 	t_data	win;
 
-	if (argc < 2)
-		return (my_err(1));
+	if (argc != 2)
+		print_menu(0, &win);
 	else
 	{
-		open_window(&win, argv[1]);
-	
+		if (!ft_strcmp("Julia", argv[1]))
+			open_window(&win, argv[1]);
+		else
+			print_menu(1, &win);
 	}
 	return (0);
 }

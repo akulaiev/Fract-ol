@@ -30,9 +30,12 @@ typedef struct	s_data
 	int		x;
 	int		y;
 	int		col;
-	int		move_right;
-	int		move_down;
+	double	move_right;
+	double	move_down;
 	int		enlarge;
+	int		c_r;
+	int		c_g;
+	int		c_b;
 }				t_data;
 
 typedef struct	s_scale
@@ -48,8 +51,6 @@ typedef struct	s_scale
 	double	c_re;
 	double	c_im;
 	int		max_col;
-	int		z_n;
-	double	cont_ind;
 }				t_scale;
 
 int		my_err(int errn);
@@ -57,5 +58,7 @@ void	set_julia(t_data *win);
 void	open_window(t_data *win, char *fract_name);
 int		key_react(int keycode, void *param);
 void	pic_scale(int keycode, void *param);
+void	pic_move(int keycode, void *param);
+void	change_col_channels(int keycode, void *param);
 
 #endif

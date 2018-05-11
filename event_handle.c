@@ -19,6 +19,10 @@ int		key_react(int keycode, void *param)
 		exit(0);
 	if (keycode == 69 || keycode == 24 || keycode == 78 || keycode == 27)
 		pic_scale(keycode, param);
+	if (keycode <= 126 && keycode >= 123)
+		pic_move(keycode, param);
+	if (keycode == 15 || keycode == 5 || keycode == 11 || keycode == 0)
+		change_col_channels(keycode, param);
 	return (0);
 }
 
@@ -27,7 +31,39 @@ void	pic_scale(int keycode, void *param)
 	mlx_clear_window(((t_data*)param)->mlx_p, ((t_data*)param)->mlx_nw);
 	if (keycode == 69 || keycode == 24)
 		((t_data*)param)->enlarge += 1;
-	if (keycode == 78 || keycode == 27)
+	if ((keycode == 78 || keycode == 27) && ((t_data*)param)->enlarge > 1)
 		((t_data*)param)->enlarge -= 1;
+	set_julia(((t_data*)param));
+}
+
+void	pic_move(int keycode, void *param)
+{
+	mlx_clear_window(((t_data*)param)->mlx_p, ((t_data*)param)->mlx_nw);
+	if (keycode == 126)
+		((t_data*)param)->move_down += 0.1;
+	if (keycode == 125)
+		((t_data*)param)->move_down -= 0.1;
+	if (keycode == 124)
+		((t_data*)param)->move_right -= 0.1;
+	if (keycode == 123)
+		((t_data*)param)->move_right += 0.1;
+	set_julia(((t_data*)param));
+}
+
+void	change_col_channels(int keycode, void *param)
+{
+	mlx_clear_window(((t_data*)param)->mlx_p, ((t_data*)param)->mlx_nw);
+	if (keycode == 15)
+		((t_data*)param)->c_r += 1;
+	if (keycode == 5)
+		((t_data*)param)->c_g += 1;
+	if (keycode == 11)
+		((t_data*)param)->c_b += 1;
+	if (keycode == 0)
+	{
+		((t_data*)param)->c_r += 5;
+		((t_data*)param)->c_g += 5;
+		((t_data*)param)->c_b += 5;
+	}
 	set_julia(((t_data*)param));
 }
