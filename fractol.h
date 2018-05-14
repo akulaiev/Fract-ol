@@ -50,7 +50,7 @@ typedef struct	s_scale
 	int		num_iter;
 	double	c_re;
 	double	c_im;
-	int		max_col;
+	int		col;
 }				t_scale;
 
 int		my_err(int errn);
@@ -60,5 +60,6 @@ int		key_react(int keycode, void *param);
 void	pic_scale(int keycode, void *param);
 void	pic_move(int keycode, void *param);
 void	change_col_channels(int keycode, void *param);
+int		colour_fract(double i, t_data *win);
 
 #endif

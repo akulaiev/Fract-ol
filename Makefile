@@ -21,8 +21,8 @@ LIBFT_PATH = ./libft/
 MLX = ./minilibx_macos/libmlx.a
 MLX_PATH = ./minilibx_macos/
 
-SOURCE = main.c event_handle.c
-O_FILES = main.o event_handle.o
+SOURCE = main.c event_handle.c fractols.c
+O_FILES = main.o event_handle.o fractols.o
 
 HEADER = -I ./fractol.h
 
