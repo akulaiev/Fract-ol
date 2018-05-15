@@ -25,8 +25,13 @@ typedef struct	s_data
 {
 	void	*mlx_p;
 	void	*mlx_nw;
+	void	*mlx_img;
 	int		win_width;
 	int		win_length;
+	char	*img_ptr;
+	int		bits_per_pixel;
+	int		size_line;
+	int		endian;
 	int		x;
 	int		y;
 	int		col;
@@ -36,6 +41,7 @@ typedef struct	s_data
 	int		c_r;
 	int		c_g;
 	int		c_b;
+	int		fract_num;
 }				t_data;
 
 typedef struct	s_scale
@@ -53,13 +59,15 @@ typedef struct	s_scale
 	int		col;
 }				t_scale;
 
-int		my_err(int errn);
+int		print_menu(t_data *win, char *input, int err);
 void	set_julia(t_data *win);
-void	open_window(t_data *win, char *fract_name);
+void	params_init(t_data *win);
 int		key_react(int keycode, void *param);
 void	pic_scale(int keycode, void *param);
 void	pic_move(int keycode, void *param);
 void	change_col_channels(int keycode, void *param);
 int		colour_fract(double i, t_data *win);
+void	open_fract(t_data *win);
+void	open_window(t_data *win, char *fract_name);
 
 #endif

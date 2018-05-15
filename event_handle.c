@@ -33,7 +33,7 @@ void	pic_scale(int keycode, void *param)
 		((t_data*)param)->enlarge += 1;
 	if ((keycode == 78 || keycode == 27) && ((t_data*)param)->enlarge > 1)
 		((t_data*)param)->enlarge -= 1;
-	set_julia(((t_data*)param));
+	open_fract(((t_data*)param));
 }
 
 void	pic_move(int keycode, void *param)
@@ -47,7 +47,7 @@ void	pic_move(int keycode, void *param)
 		((t_data*)param)->move_right -= 0.1;
 	if (keycode == 123)
 		((t_data*)param)->move_right += 0.1;
-	set_julia(((t_data*)param));
+	open_fract(((t_data*)param));
 }
 
 void	change_col_channels(int keycode, void *param)
@@ -65,5 +65,5 @@ void	change_col_channels(int keycode, void *param)
 		((t_data*)param)->c_g += 5;
 		((t_data*)param)->c_b += 5;
 	}
-	set_julia(((t_data*)param));
+	open_fract(((t_data*)param));
 }

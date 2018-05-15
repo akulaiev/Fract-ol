@@ -13,17 +13,23 @@
 #include "fractol.h"
 #include <stdio.h>
 
+void	img_pixel_put(t_data *win, t_scale scl)
+{
+	if (scl.x < win->win_width && scl.y < win->win_length && scl.x >= 0 && scl.y >= 0)
+		*(int*)(win->img_ptr + (scl.x * win->bits_per_pixel / 8 + scl.y * win->size_line)) = scl.col;
+}
+
 void	set_julia(t_data *win)
 {
 	t_scale	scl;
 
 	scl.c_re = -0.7;
 	scl.c_im = 0.27015;
-	scl.x = -1;
-	while (++scl.x < win->win_width)
+	scl.y = -1;
+	while (++scl.y < win->win_width)
 	{
-		scl.y = -1;
-		while (++scl.y < win->win_length)
+		scl.x = -1;
+		while (++scl.x < win->win_length)
 		{
 			scl.iter = -1;
 			scl.num_iter = 150;
@@ -37,7 +43,7 @@ void	set_julia(t_data *win)
 				scl.new_im = (2 * scl.old_re * scl.old_im) + scl.c_im;
 			}
 			scl.col = colour_fract(((double)scl.iter / (double)scl.num_iter), win);
-			mlx_pixel_put(win->mlx_p, win->mlx_nw, scl.x, scl.y, scl.col);
+			img_pixel_put(win, scl);
 		}
 	}
 }
