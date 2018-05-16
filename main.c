@@ -32,6 +32,8 @@ int		check_input(t_data *win, char *input)
 		win->fract_num = 1;
 		open_window(win, "Julia");
 	}
+	if (!ft_strcmp("exit", input))
+		exit(0);
 	else
 		return (1);
 	return (0);
@@ -46,9 +48,10 @@ int		print_menu(t_data *win, char *input, int err)
 		err = check_input(win, input);
 	if (err == 1)
 		write(2, "usage: ./fractol [fract name]\n", 30);
-	write(2, "available fractals:\n", 20);
-	write(2, "-> 1. Julia\n", 12);
-	write(2, "-> 2. Mandelbrot\n", 17);
+	write(1, "available fractals:\n", 20);
+	write(1, "-> 1. Julia\n", 12);
+	write(1, "-> 2. Mandelbrot\n", 17);
+	write(1, "type 'exit' to 'exit properly'\n", 31);
 	while (get_next_line(0, &name))
 	{
 		if (!(check_input(win, name)))

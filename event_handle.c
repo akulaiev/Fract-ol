@@ -26,12 +26,26 @@ int		key_react(int keycode, void *param)
 	return (0);
 }
 
+int		mouse_react(int button, int x, int y, void *param)
+{
+	if (button == 5 || button == 4)
+	{
+		// ((t_data*)param)->move_right = (double) x / ((t_data*)param)->win_width / 2;
+		// ((t_data*)param)->move_down = (double) y / ((t_data*)param)->win_length / 2;
+		((t_data*)param)->move_right = 
+		((t_data*)param)->move_down = 
+		pic_scale(button, param);
+	}
+	return (0);
+	//https://docs.microsoft.com/en-us/previous-versions/windows/internet-explorer/ie-developer/samples/jj635759(v=vs.85)
+}
+
 void	pic_scale(int keycode, void *param)
 {
 	mlx_clear_window(((t_data*)param)->mlx_p, ((t_data*)param)->mlx_nw);
-	if (keycode == 69 || keycode == 24)
+	if (keycode == 69 || keycode == 24 || keycode == 5)
 		((t_data*)param)->enlarge += 1;
-	if ((keycode == 78 || keycode == 27) && ((t_data*)param)->enlarge > 1)
+	if ((keycode == 78 || keycode == 27 || keycode == 4) && ((t_data*)param)->enlarge > 1)
 		((t_data*)param)->enlarge -= 1;
 	open_fract(((t_data*)param));
 }

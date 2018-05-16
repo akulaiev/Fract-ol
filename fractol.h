@@ -63,6 +63,7 @@ int		print_menu(t_data *win, char *input, int err);
 void	set_julia(t_data *win);
 void	params_init(t_data *win);
 int		key_react(int keycode, void *param);
+int		mouse_react(int button, int x, int y, void *param);
 void	pic_scale(int keycode, void *param);
 void	pic_move(int keycode, void *param);
 void	change_col_channels(int keycode, void *param);
