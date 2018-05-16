@@ -38,6 +38,7 @@ int		mouse_react(int button, int x, int y, void *param)
 	}
 	return (0);
 	//https://docs.microsoft.com/en-us/previous-versions/windows/internet-explorer/ie-developer/samples/jj635759(v=vs.85)
+	//http://lodev.org/cgtutor/juliamandelbrot.html
 }
 
 void	pic_scale(int keycode, void *param)
