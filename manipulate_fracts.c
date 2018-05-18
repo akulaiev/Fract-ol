@@ -40,8 +40,8 @@ void	open_window(t_data *win, char *fract_name)
 
 void	open_fract(t_data *win)
 {
-	mlx_hook(win->mlx_nw, 2, 5, key_react, (void*)win);
 	mlx_mouse_hook(win->mlx_nw, mouse_react, (void*)win);
+	mlx_hook(win->mlx_nw, 2, 5, key_react, (void*)win);
 	if (win->fract_num == 1)
 		set_julia(win);
 	mlx_put_image_to_window(win->mlx_p, win->mlx_nw, win->mlx_img, 0, 0);

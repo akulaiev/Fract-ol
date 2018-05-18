@@ -37,7 +37,7 @@ typedef struct	s_data
 	int		col;
 	double	move_right;
 	double	move_down;
-	int		enlarge;
+	double	enlarge;
 	int		c_r;
 	int		c_g;
 	int		c_b;
