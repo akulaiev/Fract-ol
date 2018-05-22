@@ -42,6 +42,11 @@ typedef struct	s_data
 	int		c_g;
 	int		c_b;
 	int		fract_num;
+
+	double	max_re;
+	double	max_im;
+	double	min_re;
+	double	min_im;
 }				t_data;
 
 typedef struct	s_scale
@@ -63,7 +68,7 @@ int		print_menu(t_data *win, char *input, int err);
 void	set_julia(t_data *win);
 void	params_init(t_data *win);
 int		key_react(int keycode, void *param);
-int		mouse_react(int button, int x, int y, void *param);
+int		mouse_hook(int button, int x, int y, void *param);
 void	pic_scale(int keycode, void *param);
 void	pic_move(int keycode, void *param);
 void	change_col_channels(int keycode, void *param);

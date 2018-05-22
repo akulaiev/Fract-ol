@@ -26,6 +26,10 @@ void	set_julia(t_data *win)
 	scl.c_re = -0.7;
 	scl.c_im = 0.27015;
 	scl.y = -1;
+	win->max_re = 1.5 * (win->win_width - win->win_width / 2) / (0.5 * win->enlarge * win->win_width) + win->move_right;
+	win->min_re = 1.5 * (0 - win->win_width / 2) / (0.5 * win->enlarge * win->win_width) + win->move_right;
+	win->max_im = (win->win_length - win->win_length / 2) / (0.5 * win->enlarge * win->win_length) + win->move_down;
+	win->min_im = (0 - win->win_length / 2) / (0.5 * win->enlarge * win->win_length) + win->move_down;
 	while (++scl.y < win->win_width)
 	{
 		scl.x = -1;
