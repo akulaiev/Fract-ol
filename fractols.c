@@ -23,8 +23,6 @@ void	set_julia(t_data *win)
 {
 	t_scale	scl;
 
-	scl.c_re = -0.7;
-	scl.c_im = 0.27015;
 	scl.y = -1;
 	win->max_re = 1.5 * (win->win_width - win->win_width / 2) / (0.5 * win->enlarge * win->win_width) + win->move_right;
 	win->min_re = 1.5 * (0 - win->win_width / 2) / (0.5 * win->enlarge * win->win_width) + win->move_right;
@@ -43,8 +41,8 @@ void	set_julia(t_data *win)
 			{
 				scl.old_re = scl.new_re;
 				scl.old_im = scl.new_im;
-				scl.new_re = (scl.old_re * scl.old_re) - (scl.old_im * scl.old_im) + scl.c_re;
-				scl.new_im = (2 * scl.old_re * scl.old_im) + scl.c_im;
+				scl.new_re = (scl.old_re * scl.old_re) - (scl.old_im * scl.old_im) + win->c_re;
+				scl.new_im = (2 * scl.old_re * scl.old_im) + win->c_im;
 			}
 			scl.col = colour_fract(((double)scl.iter / (double)scl.num_iter), win);
 			img_pixel_put(win, scl);

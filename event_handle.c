@@ -26,7 +26,24 @@ int		key_react(int keycode, void *param)
 	return (0);
 }
 
-int		mouse_hook(int button, int x, int y, void *param)
+int		mouse_move(int x, int y, void *param)
+{
+	t_data	*p;
+	double	coeff_x;
+	double	coeff_y;
+
+	p = (t_data*)param;
+	mlx_clear_window(p->mlx_p, p->mlx_nw);
+	p = (t_data*)param;
+	coeff_x = (p->max_re - p->min_re) / p->win_width;
+	coeff_y = (p->max_im - p->min_im) / p->win_length;
+	p->c_re = x * coeff_x;
+	p->c_im = y * coeff_y;
+	open_fract(p);
+	return (0);
+}
+
+int		mouse_react(int button, int x, int y, void *param)
 {
 	t_data	*p;
 	int		mid_x;
@@ -62,14 +79,14 @@ void	pic_scale(int keycode, void *param)
 	if (keycode == 69 || keycode == 24 || keycode == 5)
 	{
 		((t_data*)param)->enlarge += 0.1;
-		((t_data*)param)->move_right *= ((t_data*)param)->enlarge - diff;
-		((t_data*)param)->move_down *= ((t_data*)param)->enlarge - diff;
+		((t_data*)param)->move_right *= ((t_data*)param)->enlarge;
+		((t_data*)param)->move_down *= ((t_data*)param)->enlarge;
 	}
 	if ((keycode == 78 || keycode == 27 || keycode == 4) && ((t_data*)param)->enlarge > 0.1)
 	{
 		((t_data*)param)->enlarge -= 0.1;
-		((t_data*)param)->move_right *= ((t_data*)param)->enlarge - diff;
-		((t_data*)param)->move_down *= ((t_data*)param)->enlarge - diff;
+		((t_data*)param)->move_right *= ((t_data*)param)->enlarge;
+		((t_data*)param)->move_down *= ((t_data*)param)->enlarge;
 	}
 	open_fract(((t_data*)param));
 }

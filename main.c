@@ -23,6 +23,8 @@ void	params_init(t_data *win)
 	win->c_r = 9;
 	win->c_g = 9;
 	win->c_b = 9;
+	win->c_re = -0.7;
+	win->c_im = 0.27015;
 }
 
 int		check_input(t_data *win, char *input)

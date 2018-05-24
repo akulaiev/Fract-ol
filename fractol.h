@@ -47,6 +47,9 @@ typedef struct	s_data
 	double	max_im;
 	double	min_re;
 	double	min_im;
+
+	double	c_re;
+	double	c_im;
 }				t_data;
 
 typedef struct	s_scale
@@ -59,8 +62,6 @@ typedef struct	s_scale
 	double	old_im;
 	int		iter;
 	int		num_iter;
-	double	c_re;
-	double	c_im;
 	int		col;
 }				t_scale;
 
@@ -68,7 +69,8 @@ int		print_menu(t_data *win, char *input, int err);
 void	set_julia(t_data *win);
 void	params_init(t_data *win);
 int		key_react(int keycode, void *param);
-int		mouse_hook(int button, int x, int y, void *param);
+int		mouse_react(int button, int x, int y, void *param);
+int		mouse_move(int x, int y, void *param);
 void	pic_scale(int keycode, void *param);
 void	pic_move(int keycode, void *param);
 void	change_col_channels(int keycode, void *param);
