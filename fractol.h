@@ -42,14 +42,13 @@ typedef struct	s_data
 	int		c_g;
 	int		c_b;
 	int		fract_num;
-
 	double	max_re;
 	double	max_im;
 	double	min_re;
 	double	min_im;
-
 	double	c_re;
 	double	c_im;
+	int		mh;
 }				t_data;
 
 typedef struct	s_scale
