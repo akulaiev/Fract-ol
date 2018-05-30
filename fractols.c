@@ -13,21 +13,20 @@
 #include "fractol.h"
 #include <stdio.h>
 
-void	img_pixel_put(t_data *win, t_scale scl)
+static void		get_max_values_Julia(t_data *win)
 {
-	if (scl.x < win->win_width && scl.y < win->win_length && scl.x >= 0 && scl.y >= 0)
-		*(int*)(win->img_ptr + (scl.x * win->bits_per_pixel / 8 + scl.y * win->size_line)) = scl.col;
-}
-
-void	set_julia(t_data *win)
-{
-	t_scale	scl;
-
-	scl.y = -1;
 	win->max_re = 1.5 * (win->win_width - win->win_width / 2) / (0.5 * win->enlarge * win->win_width) + win->move_right;
 	win->min_re = 1.5 * (0 - win->win_width / 2) / (0.5 * win->enlarge * win->win_width) + win->move_right;
 	win->max_im = (win->win_length - win->win_length / 2) / (0.5 * win->enlarge * win->win_length) + win->move_down;
 	win->min_im = (0 - win->win_length / 2) / (0.5 * win->enlarge * win->win_length) + win->move_down;
+}
+
+void			set_julia(t_data *win)
+{
+	t_scale	scl;
+
+	scl.y = -1;
+	get_max_values_Julia(win);
 	while (++scl.y < win->win_width)
 	{
 		scl.x = -1;

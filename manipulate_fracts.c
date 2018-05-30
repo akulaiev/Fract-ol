@@ -25,6 +25,12 @@ int		colour_fract(double i, t_data *win)
 	return ((r << 16) + (g << 8) + b);
 }
 
+void	img_pixel_put(t_data *win, t_scale scl)
+{
+	if (scl.x < win->win_width && scl.y < win->win_length && scl.x >= 0 && scl.y >= 0)
+		*(int*)(win->img_ptr + (scl.x * win->bits_per_pixel / 8 + scl.y * win->size_line)) = scl.col;
+}
+
 void	open_window(t_data *win, char *fract_name)
 {
 	// void	*mlx_mw;

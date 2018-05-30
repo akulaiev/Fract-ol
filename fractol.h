@@ -17,9 +17,9 @@
 # include <fcntl.h>
 # include <math.h>
 # include "./minilibx_macos/mlx.h"
-// # include <mlx.h>
 # include "./libft/libft.h"
 # include <string.h>
+# include <pthread.h>
 
 typedef struct	s_data
 {
@@ -64,6 +64,17 @@ typedef struct	s_scale
 	int		col;
 }				t_scale;
 
+typedef struct	s_mouse
+{
+	int		mid_x;
+	int		mid_y;
+	double	mid_re;
+	double	mid_im;
+	double	cf;
+	double	re;
+	double	im;
+}				t_mouse; 
+
 int		print_menu(t_data *win, char *input, int err);
 void	set_julia(t_data *win);
 void	params_init(t_data *win);
@@ -76,5 +87,6 @@ void	change_col_channels(int keycode, void *param);
 int		colour_fract(double i, t_data *win);
 void	open_fract(t_data *win);
 void	open_window(t_data *win, char *fract_name);
+void	img_pixel_put(t_data *win, t_scale scl);
 
 #endif
