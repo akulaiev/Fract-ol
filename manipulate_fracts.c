@@ -13,6 +13,24 @@
 #include "fractol.h"
 #include <stdio.h>
 
+void	deal_with_threads(t_data *win)
+{
+	int				i;
+	pthread_t		th_id[NUM_TH];
+
+	win->lines_per_th = win->win_length / NUM_TH;
+	win->current_y = -1;
+	i = 0;
+	while (i < NUM_TH)
+	{
+		if (win->fract_num == 1)
+			pthread_create(&th_id[i], NULL, set_julia, (void*)win);
+		pthread_join(th_id[i], NULL);
+		win->current_y += win->lines_per_th;
+		i++;
+	}
+}
+
 int		colour_fract(double i, t_data *win)
 {
 	int		r;
@@ -48,8 +66,7 @@ void	open_fract(t_data *win)
 {
 	mlx_mouse_hook(win->mlx_nw, mouse_react, (void*)win);
 	mlx_hook(win->mlx_nw, 2, 5, key_react, (void*)win);
-	if (win->fract_num == 1)
-		set_julia(win);
+	deal_with_threads(win);
 	mlx_put_image_to_window(win->mlx_p, win->mlx_nw, win->mlx_img, 0, 0);
 	mlx_loop(win->mlx_p);
 }

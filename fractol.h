@@ -21,6 +21,8 @@
 # include <string.h>
 # include <pthread.h>
 
+# define NUM_TH 21
+
 typedef struct	s_data
 {
 	void	*mlx_p;
@@ -49,6 +51,9 @@ typedef struct	s_data
 	double	c_re;
 	double	c_im;
 	int		mh;
+
+	int		lines_per_th;
+	int		current_y;
 }				t_data;
 
 typedef struct	s_scale
@@ -76,7 +81,7 @@ typedef struct	s_mouse
 }				t_mouse; 
 
 int		print_menu(t_data *win, char *input, int err);
-void	set_julia(t_data *win);
+void	*set_julia(void *win);
 void	params_init(t_data *win);
 int		key_react(int keycode, void *param);
 int		mouse_react(int button, int x, int y, void *param);

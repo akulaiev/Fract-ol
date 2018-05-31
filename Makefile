@@ -21,15 +21,15 @@ LIBFT_PATH = ./libft/
 MLX = ./minilibx_macos/libmlx.a
 MLX_PATH = ./minilibx_macos/
 
-SOURCE = main.c event_handle.c fractols.c manipulate_fracts.c event_helper.c
-O_FILES = main.o event_handle.o fractols.o manipulate_fracts.o event_helper.o
+SOURCE = main.c event_handle.c julia.c manipulate_fracts.c event_helper.c
+O_FILES = main.o event_handle.o julia.o manipulate_fracts.o event_helper.o
 
 HEADER = -I ./fractol.h
 
 all: LIBS $(NAME) 
 
 $(NAME): $(O_FILES)
-	$(CC) $(MLX) -framework OpenGL -framework AppKit $(CFLAGS) -o $(NAME) $(O_FILES) $(LIBFT) # -lmlx
+	$(CC) -lpthread $(MLX) -framework OpenGL -framework AppKit $(CFLAGS) -o $(NAME) $(O_FILES) $(LIBFT) # -lmlx
 
 LIBS:
 	make -C $(MLX_PATH)

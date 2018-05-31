@@ -16,7 +16,10 @@
 int		key_react(int keycode, void *param)
 {
 	if (keycode == 53)
+	{
+		// system("leaks fractol");
 		exit(0);
+	}
 	if (keycode == 12 && (((t_data*)param)->mh = 1))
 		mlx_hook(((t_data*)param)->mlx_nw, 6, (1L << 13), &mouse_move, param);
 	if (keycode == 14)
