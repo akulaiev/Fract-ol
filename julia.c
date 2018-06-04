@@ -13,14 +13,6 @@
 #include "fractol.h"
 #include <stdio.h>
 
-void		get_max_values_julia(t_data *win)
-{
-	win->max_re = 1.5 * (win->win_width - win->win_width / 2) / (0.5 * win->enlarge * win->win_width) + win->move_right;
-	win->min_re = 1.5 * (0 - win->win_width / 2) / (0.5 * win->enlarge * win->win_width) + win->move_right;
-	win->max_im = (win->win_length - win->win_length / 2) / (0.5 * win->enlarge * win->win_length) + win->move_down;
-	win->min_im = (0 - win->win_length / 2) / (0.5 * win->enlarge * win->win_length) + win->move_down;
-}
-
 void			*set_julia(void *win)
 {
 	t_scale			scl;
@@ -30,7 +22,6 @@ void			*set_julia(void *win)
 	w = (t_data*)win;
 	scl.y = w->current_y;
 	i = -1;
-	// get_max_values_julia(w);
 	while (++scl.y < w->win_length && ++i < w->lines_per_th)
 	{
 		scl.x = -1;
