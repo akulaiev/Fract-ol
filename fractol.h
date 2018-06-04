@@ -21,7 +21,7 @@
 # include <string.h>
 # include <pthread.h>
 
-# define NUM_TH 21
+# define NUM_TH 10
 
 typedef struct	s_data
 {
@@ -93,5 +93,6 @@ int		colour_fract(double i, t_data *win);
 void	open_fract(t_data *win);
 void	open_window(t_data *win, char *fract_name);
 void	img_pixel_put(t_data *win, t_scale scl);
+void	get_max_values_julia(t_data *win);
 
 #endif

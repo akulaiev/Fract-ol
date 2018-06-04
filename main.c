@@ -25,6 +25,7 @@ void	params_init(t_data *win)
 	win->c_b = 9;
 	win->c_re = -0.7;
 	win->c_im = 0.27015;
+	get_max_values_julia(win);
 }
 
 int		check_input(t_data *win, char *input)

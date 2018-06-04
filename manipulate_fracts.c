@@ -29,6 +29,7 @@ void	deal_with_threads(t_data *win)
 		win->current_y += win->lines_per_th;
 		i++;
 	}
+	mlx_put_image_to_window(win->mlx_p, win->mlx_nw, win->mlx_img, 0, 0);
 }
 
 int		colour_fract(double i, t_data *win)
@@ -67,6 +68,6 @@ void	open_fract(t_data *win)
 	mlx_mouse_hook(win->mlx_nw, mouse_react, (void*)win);
 	mlx_hook(win->mlx_nw, 2, 5, key_react, (void*)win);
 	deal_with_threads(win);
-	mlx_put_image_to_window(win->mlx_p, win->mlx_nw, win->mlx_img, 0, 0);
+	// mlx_put_image_to_window(win->mlx_p, win->mlx_nw, win->mlx_img, 0, 0);
 	mlx_loop(win->mlx_p);
 }

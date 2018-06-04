@@ -19,17 +19,9 @@ void	pic_scale(int keycode, void *param)
 	if (keycode == 1)
 		open_fract(((t_data*)param));
 	if (keycode == 69 || keycode == 24 || keycode == 5)
-	{
 		((t_data*)param)->enlarge += 0.1;
-		((t_data*)param)->move_right *= 0;
-		((t_data*)param)->move_down *= 0;
-	}
 	if ((keycode == 78 || keycode == 27 || keycode == 4) && ((t_data*)param)->enlarge > 0.1)
-	{
 		((t_data*)param)->enlarge -= 0.1;
-		((t_data*)param)->move_right *= 0;
-		((t_data*)param)->move_down *= 0;
-	}
 	open_fract(((t_data*)param));
 }
 
