@@ -21,8 +21,10 @@ LIBFT_PATH = ./libft/
 MLX = ./minilibx_macos/libmlx.a
 MLX_PATH = ./minilibx_macos/
 
-SOURCE = main.c event_handle.c julia.c manipulate_fracts.c event_helper.c
-O_FILES = main.o event_handle.o julia.o manipulate_fracts.o event_helper.o
+SOURCE = main.c event_handle.c julia.c manipulate_fracts.c event_helper.c \
+mandelbrot.c
+O_FILES = main.o event_handle.o julia.o manipulate_fracts.o event_helper.o \
+mandelbrot.o
 
 HEADER = -I ./fractol.h
 

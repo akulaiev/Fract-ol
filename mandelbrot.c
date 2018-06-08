@@ -1,45 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   julia.c                                            :+:      :+:    :+:   */
+/*   mandelbrot.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: akulaiev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/05/31 12:53:01 by akulaiev          #+#    #+#             */
-/*   Updated: 2018/05/31 12:53:06 by akulaiev         ###   ########.fr       */
+/*   Created: 2018/06/08 19:12:15 by akulaiev          #+#    #+#             */
+/*   Updated: 2018/06/08 19:12:16 by akulaiev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fractol.h"
 #include <stdio.h>
 
-void	check_point(t_scale *s, t_data *w)
-{
-	while ((++s->iter < s->num_iter &&
-	(s->new_re * s->new_re + s->new_im * s->new_im < 4)))
-	{
-		s->old_re = s->new_re;
-		s->old_im = s->new_im;
-		s->new_re = (s->old_re * s->old_re) - (s->old_im * s->old_im) + w->c_re;
-		s->new_im = (2 * s->old_re * s->old_im) + w->c_im;
-	}
-}
-
-void	params_init(t_data *win)
-{
-	win->ww = 950;
-	win->wl = 950;
-	win->enl = 1;
-	win->md = 0;
-	win->mr = 0;
-	win->c_r = 9;
-	win->c_g = 9;
-	win->c_b = 9;
-	win->c_re = -0.7;
-	win->c_im = 0.27015;
-}
-
-void	*set_julia(void *win)
+void			*set_mandelbrot(void *win)
 {
 	t_scale			s;
 	t_data			*w;
@@ -55,8 +29,11 @@ void	*set_julia(void *win)
 		{
 			s.iter = -1;
 			s.num_iter = 150;
-			s.new_re = 1.5 * (s.x - w->ww / 2) / (0.5 * w->enl * w->ww) + w->mr;
-			s.new_im = (s.y - w->wl / 2) / (0.5 * w->enl * w->wl) + w->md;
+			w->c_re = 1.5 * (s.x - w->ww / 1.5) /
+			(0.5 * w->enl * w->ww) + w->mr;
+			w->c_im = (s.y - w->wl / 2) / (0.5 * w->enl * w->wl) + w->md;
+			s.new_re = w->c_re;
+			s.new_im = w->c_im;
 			check_point(&s, w);
 			s.col = colour_fract(((double)s.iter / (double)s.num_iter), win);
 			img_pixel_put(win, s);

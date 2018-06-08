@@ -28,8 +28,8 @@ typedef struct	s_data
 	void	*mlx_p;
 	void	*mlx_nw;
 	void	*mlx_img;
-	int		win_width;
-	int		win_length;
+	int		ww;
+	int		wl;
 	char	*img_ptr;
 	int		bits_per_pixel;
 	int		size_line;
@@ -37,20 +37,18 @@ typedef struct	s_data
 	int		x;
 	int		y;
 	int		col;
-	double	move_right;
-	double	move_down;
-	double	enlarge;
+	double	mr;
+	double	md;
+	double	enl;
 	int		c_r;
 	int		c_g;
 	int		c_b;
-	int		fract_num;
+	int		fn;
 	double	c_re;
 	double	c_im;
 	int		mh;
 	int		lines_per_th;
 	int		current_y;
-	int		prev_x;
-	int		prev_y;
 }				t_data;
 
 typedef struct	s_scale
@@ -66,7 +64,7 @@ typedef struct	s_scale
 	int		col;
 }				t_scale;
 
-int		print_menu(t_data *win, char *input, int err);
+void	print_menu(t_data *win, char *input, int err);
 void	*set_julia(void *win);
 void	params_init(t_data *win);
 int		key_react(int keycode, void *param);
@@ -80,5 +78,9 @@ void	open_fract(t_data *win);
 void	open_window(t_data *win, char *fract_name);
 void	img_pixel_put(t_data *win, t_scale scl);
 void	deal_with_threads(t_data *win);
+void	*set_mandelbrot(void *win);
+void	check_point(t_scale *scl, t_data *w);
+void	menu_frame(t_data *win);
+void	menu_content(t_data *win);
 
 #endif

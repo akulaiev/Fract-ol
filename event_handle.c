@@ -16,7 +16,10 @@
 int		key_react(int keycode, void *param)
 {
 	if (keycode == 53)
+	{
+		system("leaks fractol");
 		exit(0);
+	}
 	if (keycode == 8)
 	{
 		params_init(param);
@@ -36,7 +39,7 @@ int		key_react(int keycode, void *param)
 		pic_scale(keycode, param);
 	if (keycode <= 126 && keycode >= 123)
 		pic_move(keycode, param);
-	if (keycode == 15 || keycode == 5 || keycode == 11 || keycode == 0)
+	if (keycode == 0)
 		change_col_channels(keycode, param);
 	return (0);
 }
@@ -50,8 +53,8 @@ int		mouse_move(int x, int y, void *param)
 		p = (t_data*)param;
 		mlx_clear_window(p->mlx_p, p->mlx_nw);
 		p = (t_data*)param;
-		p->c_re = (float)x / p->win_width;
-		p->c_im = (float)y / p->win_length;
+		p->c_re = (float)x / p->ww;
+		p->c_im = (float)y / p->wl;
 		open_fract(p);
 	}
 	return (0);
@@ -60,21 +63,15 @@ int		mouse_move(int x, int y, void *param)
 int		mouse_react(int button, int x, int y, void *param)
 {
 	t_data	*p;
-	
+
 	p = (t_data*)param;
-	if (p->prev_x != x && p->prev_y != y)
+	if (button == 4 || button == 5)
 	{
-		p->move_right = (x + x - p->win_width) / (p->win_width * p->enlarge) + p->move_right;
-		p->move_down = (y + y - p->win_length) / (p->win_length * p->enlarge) + p->move_down;
-		p->prev_x = x;
-		p->prev_y = y;
-	}
-	if (button == 1)
-	{
-		mlx_clear_window(p->mlx_p, p->mlx_nw);
-		p->move_right = (x + x - p->win_width) / (p->win_width * p->enlarge) + p->move_right;
-		p->move_down = (y + y - p->win_length) / (p->win_length * p->enlarge) + p->move_down;
-		open_fract(p);
+		// p->mr = (x - p->ww / 2) / (0.5 * p->enl * p->ww) + p->mr;
+		// p->md = (y - p->wl / 2) / (0.5 * p->enl * p->wl) + p->md;
+		
+		p->mr = (x + x - p->ww) / (p->ww * p->enl) + p->mr;
+		p->md = (y + y - p->wl) / (p->wl * p->enl) + p->md;
 	}
 	pic_scale(button, p);
 	return (0);

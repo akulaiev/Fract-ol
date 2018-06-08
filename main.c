@@ -5,45 +5,73 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: akulaiev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   c_reated: 2018/05/07 11:46:53 by akulaiev          #+#    #+#             */
-/*   Updated: 2018/05/07 11:46:55 by akulaiev         ###   ########.fr       */
+/*   Created: 2018/06/08 20:40:38 by akulaiev          #+#    #+#             */
+/*   Updated: 2018/06/08 20:40:40 by akulaiev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fractol.h"
 #include <stdio.h>
 
-void	params_init(t_data *win)
+void	menu_content(t_data *win)
 {
-	win->win_width = 950;
-	win->win_length = 950;
-	win->enlarge = 1;
-	win->move_down = 0;
-	win->move_right = 0;
-	win->c_r = 9;
-	win->c_g = 9;
-	win->c_b = 9;
-	win->c_re = -0.7;
-	win->c_im = 0.27015;
-	win->prev_x = 951;
-	win->prev_y = 951;
+	mlx_string_put(win->mlx_p, win->mlx_nw, 155, 15, 0x1041a5, "Menu");
+	mlx_string_put(win->mlx_p, win->mlx_nw, 15, 35, 0x1041a5, "'esc' - quit");
+	mlx_string_put(win->mlx_p, win->mlx_nw, 15,
+	75, 0x1041a5, "'+'/mouse wheel - zoom in");
+	mlx_string_put(win->mlx_p, win->mlx_nw, 15,
+	95, 0x1041a5, "'-'/mouse wheel - zoom out");
+	mlx_string_put(win->mlx_p, win->mlx_nw,
+	15, 135, 0x1041a5, "arrows - move fract");
+	mlx_string_put(win->mlx_p, win->mlx_nw, 15,
+	155, 0x1041a5, "'c' - center and redraw fract");
+	mlx_string_put(win->mlx_p, win->mlx_nw, 15,
+	195, 0x1041a5, "'q' - enable changing Julia");
+	mlx_string_put(win->mlx_p, win->mlx_nw, 15,
+	215, 0x1041a5, "params with mouse");
+	mlx_string_put(win->mlx_p, win->mlx_nw, 15,
+	235, 0x1041a5, "'e' - disable changing Julia");
+	mlx_string_put(win->mlx_p, win->mlx_nw, 15,
+	255, 0x1041a5, "params with mouse");
+	mlx_string_put(win->mlx_p, win->mlx_nw, 15,
+	295, 0x1041a5, "'a' - change colours");
 }
 
-int		check_input(t_data *win, char *input)
+void	menu_frame(t_data *win)
 {
-	if (!ft_strcmp("Julia", input) || !ft_strcmp("1", input))
+	t_scale	menu;
+
+	menu.x = -1;
+	while (++menu.x < 350)
 	{
-		win->fract_num = 1;
-		open_window(win, "Julia");
+		menu.y = -1;
+		while (++menu.y < 950)
+		{
+			if (menu.x <= 10 || menu.y <= 10 || menu.x >= 340 || menu.y >= 940)
+				menu.col = 0x001d59;
+			else
+				menu.col = 0x75a2ff;
+			img_pixel_put(win, menu);
+		}
 	}
-	if (!ft_strcmp("exit", input))
+	mlx_put_image_to_window(win->mlx_p, win->mlx_nw, win->mlx_img, 0, 0);
+	menu_content(win);
+}
+
+int		check_input(t_data *win, char *i)
+{
+	if ((!ft_strcmp("Julia", i) || !ft_strcmp("1", i)) && (win->fn = 1))
+		open_window(win, "Julia");
+	if ((!ft_strcmp("Mandelbrot", i) || !ft_strcmp("2", i)) && (win->fn = 2))
+		open_window(win, "Mandelbrot");
+	if (!ft_strcmp("exit", i))
 		exit(0);
 	else
 		return (1);
 	return (0);
 }
 
-int		print_menu(t_data *win, char *input, int err)
+void	print_menu(t_data *win, char *input, int err)
 {
 	char	*name;
 
@@ -58,12 +86,9 @@ int		print_menu(t_data *win, char *input, int err)
 	write(1, "type 'exit' to 'exit properly'\n", 31);
 	while (get_next_line(0, &name))
 	{
-		if (!(check_input(win, name)))
-			return (0);
-		else
+		if ((check_input(win, name)))
 			print_menu(win, name, 1);
 	}
-	return (0);
 }
 
 int		main(int argc, char **argv)
