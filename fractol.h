@@ -12,6 +12,7 @@
 
 #ifndef FRACTOL_H
 # define FRACTOL_H
+# define NUM_TH 19
 
 # include <stdlib.h>
 # include <fcntl.h>
@@ -20,8 +21,6 @@
 # include "./libft/libft.h"
 # include <string.h>
 # include <pthread.h>
-
-# define NUM_TH 19
 
 typedef struct	s_data
 {
@@ -84,6 +83,4 @@ void	menu_frame(t_data *win);
 void	menu_content(t_data *win);
 void	*set_newton(void *win);
 void	check_point_new(t_scale *s);
-
-
 #endif

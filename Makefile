@@ -23,8 +23,9 @@ MLX_PATH = ./minilibx_macos/
 
 SOURCE = main.c event_handle.c julia.c manipulate_fracts.c event_helper.c \
 mandelbrot.c newton.c
-O_FILES = main.o event_handle.o julia.o manipulate_fracts.o event_helper.o \
-mandelbrot.o newton.c
+O_FILES = $(SOURCE:.c=.o)
+# O_FILES = main.o event_handle.o julia.o manipulate_fracts.o event_helper.o \
+# mandelbrot.o newton.o unknown.o
 
 HEADER = -I ./fractol.h
 

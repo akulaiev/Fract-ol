@@ -85,6 +85,7 @@ void	print_menu(t_data *win, char *input, int err)
 	write(1, "available fractals:\n", 20);
 	write(1, "-> 1. Julia\n", 12);
 	write(1, "-> 2. Mandelbrot\n", 17);
+	write(1, "-> 3. Newton\n", 13);
 	write(1, "type 'exit' to 'exit properly'\n", 31);
 	while (get_next_line(0, &name))
 	{
