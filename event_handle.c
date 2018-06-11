@@ -17,7 +17,7 @@ int		key_react(int keycode, void *param)
 {
 	if (keycode == 53)
 	{
-		system("leaks fractol");
+		// system("leaks fractol");
 		exit(0);
 	}
 	if (keycode == 8)

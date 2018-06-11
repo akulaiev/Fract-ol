@@ -64,6 +64,8 @@ int		check_input(t_data *win, char *i)
 		open_window(win, "Julia");
 	if ((!ft_strcmp("Mandelbrot", i) || !ft_strcmp("2", i)) && (win->fn = 2))
 		open_window(win, "Mandelbrot");
+	if ((!ft_strcmp("Newton", i) || !ft_strcmp("3", i)) && (win->fn = 3))
+		open_window(win, "Newton");
 	if (!ft_strcmp("exit", i))
 		exit(0);
 	else
