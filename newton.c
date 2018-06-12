@@ -13,13 +13,6 @@
 #include "fractol.h"
 #include <stdio.h>
 
-// z^3 - 1
-// 	s->new_re = (s->old_re * s->old_re * s->old_re) - (3 * s->old_im * s->old_im * s->old_re) - 1;
-// 	s->new_im = (3 * s->old_re * s->old_re * s->old_im) - (s->old_im * s->old_im * s->old_im);
-// z^2 * 3
-// 	s->new_re = 3 * (s->old_re * s->old_re - s->old_im * s->old_im);
-// 	s->new_im = 6 * (s->old_re * s->old_im);
-
 float	funct_re(t_scale *s)
 {
 	return ((s->old_re * s->old_re * s->old_re) - (3 * s->old_im * s->old_im * s->old_re) - 1);
@@ -40,39 +33,6 @@ float	depr_im(t_scale *s)
 	return (6 * s->old_re * s->old_im);
 }
 
-typedef struct	s_roots
-{
-	float	r_re;
-	float	r_im;
-}				t_roots;
-
-void	check_point_new(t_scale *s)
-{
-	int		cols[3] = {0xff0000, 0x00ff00, 0x0000ff};
-	t_roots	rs[3] = {{1, 0}, {-0.5, sqrt(3)/2}, {-0.5, -sqrt(3)/2}};
-	float	tolerance = 0.000001;
-	int		i;
-	float	diff_re;
-	float	diff_im;
-
-	while (++s->iter < s->num_iter)
-	{
-		s->old_re = s->new_re;
-		s->old_im = s->new_im;
-		s->new_re -= funct_re(s) / depr_re(s);
-		s->new_im -= funct_re(s) / depr_re(s);
-		i = -1;
-		while (++i < 3)
-		{
-			diff_re = s->new_re - rs[i].r_re;
-			diff_im = s->new_im - rs[i].r_im;
-			if (fabs(diff_re) < tolerance && fabs(diff_im) < tolerance)
-				s->col = cols[i];
-		}
-		s->col = 0x0;
-	}
-}
-
 void	*set_newton(void *win)
 {
 	t_scale			s;
@@ -91,7 +51,20 @@ void	*set_newton(void *win)
 			s.num_iter = 150;
 			s.new_re = 1.5 * (s.x - w->ww / 2) / (0.5 * w->enl * w->ww) + w->mr;
 			s.new_im = (s.y - w->wl / 2) / (0.5 * w->enl * w->wl) + w->md;
-			check_point_new(&s);
+			float d_x = s.new_re;
+			float d_y = s.new_im;
+			while ((++s.iter < s.num_iter && (s.new_re * s.new_re + s.new_im * s.new_im < 4)
+			&& (d_x * d_x + d_y * d_y > 0.000001)))
+			{
+				s.old_re = s.new_re;
+				s.old_im = s.new_im;
+				s.new_re = funct_re(&s) / depr_re(&s);;
+				s.new_im = funct_im(&s) / depr_im(&s);;
+				d_x = fabs(s.old_re - s.new_re);
+				d_y = fabs(s.old_im - s.new_im);
+			}
+			s.col = colour_fract(((double)s.iter / (double)s.num_iter), win);
+			// s.col = colour_fract((16 - (s.iter % 16)), win);
 			img_pixel_put(win, s);
 		}
 	}
