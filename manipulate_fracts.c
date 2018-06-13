@@ -30,6 +30,8 @@ void	deal_with_threads(t_data *win)
 			pthread_create(&th_id[i], NULL, set_mandelbrot, (void*)win);
 		if (win->fn == 3)
 			pthread_create(&th_id[i], NULL, set_newton, (void*)win);
+		if (win->fn == 4)
+			pthread_create(&th_id[i], NULL, set_biomorph, (void*)win);
 		num = i + 1;
 		while (num--)
 			pthread_join(th_id[num], NULL);

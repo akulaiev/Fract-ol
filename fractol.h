@@ -81,6 +81,8 @@ void	*set_mandelbrot(void *win);
 void	check_point(t_scale *scl, t_data *w);
 void	menu_frame(t_data *win);
 void	menu_content(t_data *win);
+void	*set_biomorph(void *win);
+void	check_point_bio(t_scale *s, t_data *w);
 void	*set_newton(void *win);
-void	check_point_new(t_scale *s);
+void	check_new(t_scale *s, float tmp);
 #endif

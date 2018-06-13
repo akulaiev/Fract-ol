@@ -66,6 +66,8 @@ int		check_input(t_data *win, char *i)
 		open_window(win, "Mandelbrot");
 	if ((!ft_strcmp("Newton", i) || !ft_strcmp("3", i)) && (win->fn = 3))
 		open_window(win, "Newton");
+	if ((!ft_strcmp("Biomorph", i) || !ft_strcmp("4", i)) && (win->fn = 4))
+		open_window(win, "Biomorph");
 	if (!ft_strcmp("exit", i))
 		exit(0);
 	else
@@ -86,6 +88,7 @@ void	print_menu(t_data *win, char *input, int err)
 	write(1, "-> 1. Julia\n", 12);
 	write(1, "-> 2. Mandelbrot\n", 17);
 	write(1, "-> 3. Newton\n", 13);
+	write(1, "-> 4. Biomorph\n", 15);
 	write(1, "type 'exit' to 'exit properly'\n", 31);
 	while (get_next_line(0, &name))
 	{

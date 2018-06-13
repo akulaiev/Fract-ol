@@ -37,6 +37,7 @@ void	params_init(t_data *win)
 	win->c_b = 9;
 	win->c_re = -0.7;
 	win->c_im = 0.27015;
+	win->col = 0xf441f1;
 }
 
 void	*set_julia(void *win)
