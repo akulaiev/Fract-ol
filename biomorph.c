@@ -4,6 +4,8 @@
 
 void	check_point_bio(t_scale *s, t_data *w)
 {
+	s->col = 0;
+
 	while ((++s->iter < s->num_iter && (s->new_re < 80 ||
 	s->new_im < 80 || s->old_re < 80 || s->old_im < 80)))
 	{
@@ -20,6 +22,11 @@ void	check_point_bio(t_scale *s, t_data *w)
 		if ((s->new_re) < 80 && (s->new_im) >= 80)
 			s->col = 0x00ff00;
 	}
+	if (s->col)
+		s->col /= colour_fract(((double)s->iter / (double)s->num_iter), w);
+	else
+		s->col = colour_fract(((double)s->iter / (double)s->num_iter), w);
+
 }
 
 void			*set_biomorph(void *win)
@@ -43,7 +50,6 @@ void			*set_biomorph(void *win)
 			s.new_re = 4 * (s.x - w->ww / 2) / (0.5 * w->enl * w->ww) + w->mr;
 			s.new_im = 3 * (s.y - w->wl / 2) / (0.5 * w->enl * w->wl) + w->md;
 			check_point_bio(&s, w);
-			s.col /= colour_fract(((double)s.iter / (double)s.num_iter), win);
 			img_pixel_put(win, s);
 		}
 	}

@@ -13,6 +13,18 @@
 #include "fractol.h"
 #include <stdio.h>
 
+int		colour_fract(double i, t_data *win)
+{
+	int		r;
+	int		g;
+	int		b;
+
+	r = (int)(win->c_r * (1 - i) * i * i * i * 255);
+	g = (int)(win->c_g * (1 - i) * (1 - i) * i * i * 255);
+	b = (int)(win->c_b * (1 - i) * (1 - i) * (1 - i) * i * 255);
+	return ((r << 16) + (g << 8) + b);
+}
+
 void	check_point(t_scale *s, t_data *w)
 {
 	while ((++s->iter < s->num_iter &&

@@ -13,6 +13,14 @@
 #include "fractol.h"
 #include <stdio.h>
 
+void	deal_with_threads_h(t_data *win, int i, pthread_t *th_id)
+{
+	if (win->fn == 5)
+		pthread_create(&th_id[i], NULL, set_lambda, (void*)win);
+	if (win->fn == 6)
+		pthread_create(&th_id[i], NULL, set_spider, (void*)win);
+}
+
 void	deal_with_threads(t_data *win)
 {
 	int			num;
@@ -32,24 +40,14 @@ void	deal_with_threads(t_data *win)
 			pthread_create(&th_id[i], NULL, set_newton, (void*)win);
 		if (win->fn == 4)
 			pthread_create(&th_id[i], NULL, set_biomorph, (void*)win);
+		else
+			deal_with_threads_h(win, i, th_id);
 		num = i + 1;
 		while (num--)
 			pthread_join(th_id[num], NULL);
 		win->current_y += win->lines_per_th;
 		i++;
 	}
-}
-
-int		colour_fract(double i, t_data *win)
-{
-	int		r;
-	int		g;
-	int		b;
-
-	r = (int)(win->c_r * (1 - i) * i * i * i * 255);
-	g = (int)(win->c_g * (1 - i) * (1 - i) * i * i * 255);
-	b = (int)(win->c_b * (1 - i) * (1 - i) * (1 - i) * i * 255);
-	return ((r << 16) + (g << 8) + b);
 }
 
 void	img_pixel_put(t_data *win, t_scale scl)
