@@ -13,8 +13,6 @@
 #include "fractol.h"
 #include <stdio.h>
 
-void	two_wind(t_data *win, char *input1, char *input2);
-
 void	menu_content(t_data *win)
 {
 	mlx_string_put(win->mlx_p, win->mlx_nw, 155, 15, 0x1041a5, "Menu");
@@ -112,11 +110,9 @@ int		main(int argc, char **argv)
 {
 	t_data	win;
 
-	if (argc > 3 || argc < 2)
+	if (argc != 2)
 		print_menu(&win, NULL, 1);
 	else if (argc == 2)
 		print_menu(&win, argv[1], 0);
-	else if (argc == 3)
-		two_wind(&win, argv[1], argv[2]);
 	return (0);
 }
