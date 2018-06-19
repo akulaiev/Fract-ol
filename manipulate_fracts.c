@@ -19,6 +19,8 @@ void	deal_with_threads_h(t_data *win, int i, pthread_t *th_id)
 		pthread_create(&th_id[i], NULL, set_lambda, (void*)win);
 	if (win->fn == 6)
 		pthread_create(&th_id[i], NULL, set_spider, (void*)win);
+	if (win->fn == 7)
+		pthread_create(&th_id[i], NULL, set_burning_ship, (void*)win);
 }
 
 void	deal_with_threads(t_data *win)

@@ -13,6 +13,8 @@
 #include "fractol.h"
 #include <stdio.h>
 
+void	two_wind(t_data *win, char *input1, char *input2);
+
 void	menu_content(t_data *win)
 {
 	mlx_string_put(win->mlx_p, win->mlx_nw, 155, 15, 0x1041a5, "Menu");
@@ -72,6 +74,8 @@ int		check_input(t_data *win, char *i)
 		open_window(win, "Lambda");
 	if ((!ft_strcmp("Spider", i) || !ft_strcmp("6", i)) && (win->fn = 6))
 		open_window(win, "Spider");
+	if ((!ft_strcmp("Burning_ship", i) || !ft_strcmp("7", i)) && (win->fn = 7))
+		open_window(win, "Burning_ship");
 	if (!ft_strcmp("exit", i))
 		exit(0);
 	else
@@ -95,6 +99,7 @@ void	print_menu(t_data *win, char *input, int err)
 	write(1, "-> 4. Biomorph\n", 15);
 	write(1, "-> 5. Lambda\n", 13);
 	write(1, "-> 6. Spider\n", 13);
+	write(1, "-> 7. Burning ship\n", 19);
 	write(1, "type 'exit' to 'exit properly'\n", 31);
 	while (get_next_line(0, &name))
 	{
@@ -107,9 +112,11 @@ int		main(int argc, char **argv)
 {
 	t_data	win;
 
-	if (argc != 2)
+	if (argc > 3 || argc < 2)
 		print_menu(&win, NULL, 1);
-	else
+	else if (argc == 2)
 		print_menu(&win, argv[1], 0);
+	else if (argc == 3)
+		two_wind(&win, argv[1], argv[2]);
 	return (0);
 }

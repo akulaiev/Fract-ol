@@ -22,7 +22,7 @@ MLX = ./minilibx_macos/libmlx.a
 MLX_PATH = ./minilibx_macos/
 
 SOURCE = main.c event_handle.c julia.c manipulate_fracts.c event_helper.c \
-mandelbrot.c newton.c biomorph.c lambda.c spider.c
+mandelbrot.c newton.c biomorph.c lambda.c spider.c burning_ship.c two_wind.c
 O_FILES = $(SOURCE:.c=.o)
 # O_FILES = main.o event_handle.o julia.o manipulate_fracts.o event_helper.o \
 # mandelbrot.o newton.o unknown.o

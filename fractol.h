@@ -21,6 +21,8 @@
 # include "./libft/libft.h"
 # include <string.h>
 # include <pthread.h>
+# include <sys/types.h>
+# include <unistd.h>
 
 typedef struct	s_data
 {
@@ -64,6 +66,7 @@ typedef struct	s_scale
 }				t_scale;
 
 void			print_menu(t_data *win, char *input, int err);
+int				check_input(t_data *win, char *i);
 void			*set_julia(void *win);
 void			params_init(t_data *win);
 int				key_react(int keycode, void *param);
@@ -88,4 +91,6 @@ void			check_new(t_scale *s, float tmp);
 void			*set_lambda(void *win);
 void			check_point_la(t_scale *s, t_data *w);
 void			*set_spider(void *win);
+void			*set_burning_ship(void *win);
+void			check_point_ship(t_scale *s, t_data *w);
 #endif
