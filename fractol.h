@@ -49,8 +49,19 @@ typedef struct	s_data
 	double	c_im;
 	int		mh;
 	int		lines_per_th;
-	int		current_y;
+	float	min_re;
+	float	max_re;
+	float	min_im;
+	float	max_im;
+	float	re_f;
+ 	float	im_f;
 }				t_data;
+
+typedef struct	s_fract
+{
+	int		current_y;
+	t_data	*window;
+}				t_fract;
 
 typedef struct	s_scale
 {
@@ -65,7 +76,7 @@ typedef struct	s_scale
 	int		col;
 }				t_scale;
 
-void			print_menu(t_data *win, char *input, int err);
+void			print_menu(t_data *win, char *input);
 int				check_input(t_data *win, char *i);
 void			*set_julia(void *win);
 void			params_init(t_data *win);
@@ -93,4 +104,5 @@ void			check_point_la(t_scale *s, t_data *w);
 void			*set_spider(void *win);
 void			*set_burning_ship(void *win);
 void			check_point_ship(t_scale *s, t_data *w);
+void			*set_unknown(void *win);
 #endif

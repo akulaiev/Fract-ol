@@ -13,43 +13,51 @@
 #include "fractol.h"
 #include <stdio.h>
 
-void	deal_with_threads_h(t_data *win, int i, pthread_t *th_id)
+static void	deal_with_threads_h(t_fract *w, int i, pthread_t *th_id, int fn)
 {
-	if (win->fn == 5)
-		pthread_create(&th_id[i], NULL, set_lambda, (void*)win);
-	if (win->fn == 6)
-		pthread_create(&th_id[i], NULL, set_spider, (void*)win);
-	if (win->fn == 7)
-		pthread_create(&th_id[i], NULL, set_burning_ship, (void*)win);
+	if (fn == 2)
+		pthread_create(&th_id[i], NULL, set_mandelbrot, w + i);
+	else if (fn == 3)
+		pthread_create(&th_id[i], NULL, set_newton, w + i);
+	else if (fn == 4)
+		pthread_create(&th_id[i], NULL, set_biomorph, w + i);
+	else if (fn == 5)
+		pthread_create(&th_id[i], NULL, set_lambda, w + i);
+	else if (fn == 6)
+		pthread_create(&th_id[i], NULL, set_spider, w + i);
+	else if (fn == 7)
+		pthread_create(&th_id[i], NULL, set_burning_ship, w + i);
+	else if (fn == 8)
+		pthread_create(&th_id[i], NULL, set_unknown, w + i);
 }
 
 void	deal_with_threads(t_data *win)
 {
-	int			num;
-	int			i;
+	int			j;
+	int			iter;
+	t_fract		w[NUM_TH];
 	pthread_t	th_id[NUM_TH];
 
 	win->lines_per_th = win->wl / NUM_TH;
-	win->current_y = -1;
-	i = 0;
-	while (i < NUM_TH)
+	iter = -1;
+	j = -1;
+	while (++iter < NUM_TH)
+	{
+		w[iter].current_y = j;
+		w[iter].window = win;
+		j += win->lines_per_th;
+	}
+	iter = -1;
+	while (++iter < NUM_TH)
 	{
 		if (win->fn == 1)
-			pthread_create(&th_id[i], NULL, set_julia, (void*)win);
-		if (win->fn == 2)
-			pthread_create(&th_id[i], NULL, set_mandelbrot, (void*)win);
-		if (win->fn == 3)
-			pthread_create(&th_id[i], NULL, set_newton, (void*)win);
-		if (win->fn == 4)
-			pthread_create(&th_id[i], NULL, set_biomorph, (void*)win);
+			pthread_create(&th_id[iter], NULL, set_julia, w + iter);
 		else
-			deal_with_threads_h(win, i, th_id);
-		num = i + 1;
-		while (num--)
-			pthread_join(th_id[num], NULL);
-		win->current_y += win->lines_per_th;
-		i++;
+			deal_with_threads_h(w, iter, th_id, win->fn);
 	}
+	iter = -1;
+	while (++iter < NUM_TH)
+		pthread_join(th_id[iter], NULL);
 }
 
 void	img_pixel_put(t_data *win, t_scale scl)

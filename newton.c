@@ -29,26 +29,26 @@ void	check_new(t_scale *s, float tmp)
 void	*set_newton(void *win)
 {
 	t_scale			s;
-	t_data			*w;
+	t_data			w;
 	int				i;
 	float			tmp;
 
-	w = (t_data*)win;
-	s.y = w->current_y;
+	w = *((t_fract*)win)->window;
+	s.y =((t_fract*)win)->current_y;
 	i = -1;
-	while (++s.y < w->wl && ++i < w->lines_per_th)
+	while (++s.y < w.wl && ++i < w.lines_per_th)
 	{
 		s.x = -1;
-		while (++s.x < w->ww)
+		while (++s.x < w.ww)
 		{
 			tmp = 1;
 			s.iter = -1;
 			s.num_iter = 150;
-			s.new_re = 1.5 * (s.x - w->ww / 2) / (0.5 * w->enl * w->ww) + w->mr;
-			s.new_im = (s.y - w->wl / 2) / (0.5 * w->enl * w->wl) + w->md;
+			s.new_re = (w.min_re + s.x * w.re_f) / w.enl + (w.mr + 0.5);
+			s.new_im = (w.max_im - s.y * w.im_f) / w.enl - (w.md + 0.3);
 			check_new(&s, tmp);
-			s.col = colour_fract(((double)s.iter / (double)s.num_iter), win);
-			img_pixel_put(win, s);
+			s.col = colour_fract(((double)s.iter / (double)s.num_iter), &w);
+			img_pixel_put(&w, s);
 		}
 	}
 	pthread_exit(NULL);

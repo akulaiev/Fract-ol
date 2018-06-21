@@ -74,20 +74,22 @@ int		check_input(t_data *win, char *i)
 		open_window(win, "Spider");
 	if ((!ft_strcmp("Burning_ship", i) || !ft_strcmp("7", i)) && (win->fn = 7))
 		open_window(win, "Burning_ship");
-	if (!ft_strcmp("exit", i))
-		exit(0);
+	if ((!ft_strcmp("Unknown", i) || !ft_strcmp("8", i)) && (win->fn = 8))
+		open_window(win, "Unknown");
 	else
 		return (1);
 	return (0);
 }
 
-void	print_menu(t_data *win, char *input, int err)
+void	print_menu(t_data *win, char *input)
 {
-	char	*name;
+	int		err;
 
-	name = NULL;
+	err = 0;
 	if (input)
 		err = check_input(win, input);
+	if (!input)
+		err = 1;
 	if (err == 1)
 		write(2, "usage: ./fractol [fract name]\n", 30);
 	write(1, "available fractals:\n", 20);
@@ -97,22 +99,17 @@ void	print_menu(t_data *win, char *input, int err)
 	write(1, "-> 4. Biomorph\n", 15);
 	write(1, "-> 5. Lambda\n", 13);
 	write(1, "-> 6. Spider\n", 13);
-	write(1, "-> 7. Burning ship\n", 19);
-	write(1, "type 'exit' to 'exit properly'\n", 31);
-	while (get_next_line(0, &name))
-	{
-		if ((check_input(win, name)))
-			print_menu(win, name, 1);
-	}
+	write(1, "-> 7. Burning_ship\n", 19);
+	write(1, "-> 8. Unknown\n", 14);
 }
 
 int		main(int argc, char **argv)
 {
 	t_data	win;
 
-	if (argc != 2)
-		print_menu(&win, NULL, 1);
+	if (argc < 2 || argc > 3)
+		print_menu(&win, NULL);
 	else if (argc == 2)
-		print_menu(&win, argv[1], 0);
+		print_menu(&win, argv[1]);
 	return (0);
 }

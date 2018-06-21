@@ -67,9 +67,6 @@ int		mouse_react(int button, int x, int y, void *param)
 	p = (t_data*)param;
 	if (button == 4 || button == 5)
 	{
-		// p->mr = (x - p->ww / 2) / (0.5 * p->enl * p->ww) + p->mr;
-		// p->md = (y - p->wl / 2) / (0.5 * p->enl * p->wl) + p->md;
-		
 		p->mr = (x + x - p->ww) / (p->ww * p->enl) + p->mr;
 		p->md = (y + y - p->wl) / (p->wl * p->enl) + p->md;
 	}

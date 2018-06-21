@@ -17,26 +17,26 @@ void	check_point_ship(t_scale *s, t_data *w)
 void	*set_burning_ship(void *win)
 {
 	t_scale			s;
-	t_data			*w;
+	t_data			w;
 	int				i;
 
-	w = (t_data*)win;
-	s.y = w->current_y;
+	w = *((t_fract*)win)->window;
+	s.y = ((t_fract*)win)->current_y;
 	i = -1;
-	while (++s.y < w->wl && ++i < w->lines_per_th)
+	while (++s.y < w.wl && ++i < w.lines_per_th)
 	{
 		s.x = -1;
-		while (++s.x < w->ww)
+		while (++s.x < w.ww)
 		{
 			s.iter = -1;
 			s.num_iter = 150;
-			w->c_re = 2 * (s.x - w->ww / 1.7) / (0.5 * w->enl * w->ww) + w->mr;
-			w->c_im = 2 * (s.y - w->wl / 2) / (0.5 * w->enl * w->wl) + w->md;
-			s.new_re = w->c_re;
-			s.new_im = w->c_im;
-			check_point_ship(&s, w);
-			s.col = colour_fract(((double)s.iter / (double)s.num_iter), win);
-			img_pixel_put(win, s);
+			w.c_re = (w.min_re + s.x * w.re_f) / w.enl + w.mr;
+			w.c_im = (w.min_im + s.y * w.im_f) / w.enl + (w.md - 0.8);
+			s.new_re = w.c_re;
+			s.new_im = w.c_im;
+			check_point_ship(&s, &w);
+			s.col = colour_fract(((double)s.iter / (double)s.num_iter), &w);
+			img_pixel_put(&w, s);
 		}
 	}
 	pthread_exit(NULL);
