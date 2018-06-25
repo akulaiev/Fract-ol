@@ -111,5 +111,7 @@ int		main(int argc, char **argv)
 		print_menu(&win, NULL);
 	else if (argc == 2)
 		print_menu(&win, argv[1]);
+	else if (argc == 3)
+		two_wind(argv[1], argv[2], &win);
 	return (0);
 }

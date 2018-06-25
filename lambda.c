@@ -29,8 +29,10 @@ void			*set_lambda(void *win)
 		{
 			s.iter = -1;
 			s.num_iter = 150;
-			w.c_re = (w.min_re + s.x * w.re_f) / (w.enl * 0.5) + (w.mr + 2);
-			w.c_im = (w.max_im - s.y * w.im_f) / (w.enl * 0.5) - (w.md + 0.39);
+			w.c_re = (double)(s.x / (w.ww /
+			(w.max_re - w.min_re)) + w.min_re) * (w.enl / 0.5) + w.mr + 1.99;
+			w.c_im = (double)(s.y / (w.wl /
+			(w.max_im - w.min_im)) + w.min_im) * (w.enl / 0.5) + w.md - 0.3;
 			s.new_re = 0.5;
 			s.new_im = 0;
 			check_point_la(&s, &w);

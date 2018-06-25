@@ -105,4 +105,5 @@ void			*set_spider(void *win);
 void			*set_burning_ship(void *win);
 void			check_point_ship(t_scale *s, t_data *w);
 void			*set_unknown(void *win);
+void		two_wind(char *i1, char *i2, t_data *win);
 #endif

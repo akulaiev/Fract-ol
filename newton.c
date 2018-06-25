@@ -44,8 +44,10 @@ void	*set_newton(void *win)
 			tmp = 1;
 			s.iter = -1;
 			s.num_iter = 150;
-			s.new_re = (w.min_re + s.x * w.re_f) / w.enl + (w.mr + 0.5);
-			s.new_im = (w.max_im - s.y * w.im_f) / w.enl - (w.md + 0.3);
+			s.new_re = (double)(s.x / (w.ww /
+			(w.max_re - w.min_re)) + w.min_re) * w.enl + w.mr + 0.5;
+			s.new_im = (double)(s.y / (w.wl /
+			(w.max_im - w.min_im)) + w.min_im) * w.enl + w.md - 0.3;
 			check_new(&s, tmp);
 			s.col = colour_fract(((double)s.iter / (double)s.num_iter), &w);
 			img_pixel_put(&w, s);

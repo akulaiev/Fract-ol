@@ -30,8 +30,10 @@ void			*set_mandelbrot(void *win)
 		{
 			s.iter = -1;
 			s.num_iter = 150;
-			w.c_re = (w.min_re + s.x * w.re_f) / w.enl + w.mr;
-			w.c_im = (w.max_im - s.y * w.im_f) / w.enl - (w.md + 0.2);
+			w.c_re = (double)(s.x / (w.ww /
+			(w.max_re - w.min_re)) + w.min_re) * w.enl + w.mr;
+			w.c_im = (double)(s.y / (w.wl /
+			(w.max_im - w.min_im)) + w.min_im) * w.enl + w.md - 0.3;
 			s.new_re = w.c_re;
 			s.new_im = w.c_im;
 			check_point(&s, &w);

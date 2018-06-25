@@ -17,7 +17,7 @@ int		key_react(int keycode, void *param)
 {
 	if (keycode == 53)
 	{
-		// system("leaks fractol");
+		system("leaks fractol");
 		exit(0);
 	}
 	if (keycode == 8)
@@ -60,16 +60,37 @@ int		mouse_move(int x, int y, void *param)
 	return (0);
 }
 
+float interpolate(float start, float end, float ip)
+{
+	float res;
+
+	res = start + ((end - start) * ip);
+    return (res);
+}
+
 int		mouse_react(int button, int x, int y, void *param)
 {
 	t_data	*p;
+	float	ip;
+	float	mre;
+	float	mim;
 
 	p = (t_data*)param;
-	if (button == 4 || button == 5)
+	if ((button == 4 || button == 5) && (x >= 350))
 	{
-		p->mr = (x + x - p->ww) / (p->ww * p->enl) + p->mr;
-		p->md = (y + y - p->wl) / (p->wl * p->enl) + p->md;
+		x -= 350;
+		mre = (float)x / (p->ww / (p->max_re - p->min_re)) + p->min_re;
+		mim = (float)y / (p->wl / (p->max_im - p->min_im)) + p->min_im;
+		mlx_clear_window(p->mlx_p, p->mlx_nw);
+		if (button == 4)
+			ip = 1.03;
+		if (button == 5)
+			ip = 1 / 1.03;
+		p->min_re = interpolate(mre, p->min_re, ip);
+		p->min_im = interpolate(mim, p->min_im, ip);
+		p->max_re = interpolate(mre, p->max_re, ip);
+		p->max_im = interpolate(mim, p->max_im, ip);
+		open_fract(p);
 	}
-	pic_scale(button, p);
 	return (0);
 }
