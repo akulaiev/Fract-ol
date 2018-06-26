@@ -11,15 +11,11 @@
 /* ************************************************************************** */
 
 #include "fractol.h"
-#include <stdio.h>
 
 int		key_react(int keycode, void *param)
 {
 	if (keycode == 53)
-	{
-		system("leaks fractol");
 		exit(0);
-	}
 	if (keycode == 8)
 	{
 		params_init(param);
@@ -60,12 +56,12 @@ int		mouse_move(int x, int y, void *param)
 	return (0);
 }
 
-float interpolate(float start, float end, float ip)
+float	interpolate(float start, float end, float ip)
 {
 	float res;
 
 	res = start + ((end - start) * ip);
-    return (res);
+	return (res);
 }
 
 int		mouse_react(int button, int x, int y, void *param)

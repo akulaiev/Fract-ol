@@ -1,5 +1,16 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   burning_ship.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: akulaiev <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2018/06/26 16:27:34 by akulaiev          #+#    #+#             */
+/*   Updated: 2018/06/26 16:27:36 by akulaiev         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "fractol.h"
-#include <stdio.h>
 
 void	check_point_ship(t_scale *s, t_data *w)
 {
@@ -9,7 +20,8 @@ void	check_point_ship(t_scale *s, t_data *w)
 	(s->new_re * s->new_re + s->new_im * s->new_im < 4)))
 	{
 		tmp = s->new_im;
-		s->new_im = fabs(s->new_re * s->new_im + s->new_re * s->new_im) + w->c_im;
+		s->new_im = fabs(s->new_re * s->new_im +
+		s->new_re * s->new_im) + w->c_im;
 		s->new_re = fabs(s->new_re * s->new_re) - (tmp * tmp) + w->c_re;
 	}
 }
@@ -18,12 +30,11 @@ void	*set_burning_ship(void *win)
 {
 	t_scale			s;
 	t_data			w;
-	int				i;
 
 	w = *((t_fract*)win)->window;
 	s.y = ((t_fract*)win)->current_y;
-	i = -1;
-	while (++s.y < w.wl && ++i < w.lines_per_th)
+	s.i = -1;
+	while (++s.y < w.wl && ++s.i < w.lines_per_th)
 	{
 		s.x = -1;
 		while (++s.x < w.ww)

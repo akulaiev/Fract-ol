@@ -1,5 +1,16 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   spider.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: akulaiev <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2018/06/26 16:35:05 by akulaiev          #+#    #+#             */
+/*   Updated: 2018/06/26 16:35:08 by akulaiev         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "fractol.h"
-#include <stdio.h>
 
 void	check_point_spi(t_scale *s, t_data *w)
 {
@@ -15,16 +26,15 @@ void	check_point_spi(t_scale *s, t_data *w)
 	}
 }
 
-void			*set_spider(void *win)
+void	*set_spider(void *win)
 {
 	t_scale			s;
 	t_data			w;
-	int				i;
 
 	w = *((t_fract*)win)->window;
 	s.y = ((t_fract*)win)->current_y;
-	i = -1;
-	while (++s.y < w.wl && ++i < w.lines_per_th)
+	s.i = -1;
+	while (++s.y < w.wl && ++s.i < w.lines_per_th)
 	{
 		s.x = -1;
 		while (++s.x < w.ww)

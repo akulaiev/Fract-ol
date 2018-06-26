@@ -22,18 +22,16 @@ MLX = ./minilibx_macos/libmlx.a
 MLX_PATH = ./minilibx_macos/
 
 SOURCE = main.c event_handle.c julia.c manipulate_fracts.c event_helper.c \
-mandelbrot.c newton.c biomorph.c lambda.c spider.c burning_ship.c unknown.c \
-two_wind.c
+mandelbrot.c newton.c biomorph.c lambda.c spider.c burning_ship.c unknown.c
+
 O_FILES = $(SOURCE:.c=.o)
-# O_FILES = main.o event_handle.o julia.o manipulate_fracts.o event_helper.o \
-# mandelbrot.o newton.o unknown.o
 
 HEADER = -I ./fractol.h
 
 all: LIBS $(NAME) 
 
 $(NAME): $(O_FILES)
-	$(CC) -lpthread $(MLX) -framework OpenGL -framework AppKit $(CFLAGS) -o $(NAME) $(O_FILES) $(LIBFT) # -lmlx
+	$(CC) -lpthread $(MLX) -framework OpenGL -framework AppKit $(CFLAGS) -o $(NAME) $(O_FILES) $(LIBFT)
 
 LIBS:
 	make -C $(MLX_PATH)

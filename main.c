@@ -11,7 +11,6 @@
 /* ************************************************************************** */
 
 #include "fractol.h"
-#include <stdio.h>
 
 void	menu_content(t_data *win)
 {
@@ -58,60 +57,60 @@ void	menu_frame(t_data *win)
 	menu_content(win);
 }
 
-int		check_input(t_data *win, char *i)
+void	check_input(t_data *win, char *n, int i)
 {
-	if ((!ft_strcmp("Julia", i) || !ft_strcmp("1", i)) && (win->fn = 1))
-		open_window(win, "Julia");
-	if ((!ft_strcmp("Mandelbrot", i) || !ft_strcmp("2", i)) && (win->fn = 2))
-		open_window(win, "Mandelbrot");
-	if ((!ft_strcmp("Newton", i) || !ft_strcmp("3", i)) && (win->fn = 3))
-		open_window(win, "Newton");
-	if ((!ft_strcmp("Biomorph", i) || !ft_strcmp("4", i)) && (win->fn = 4))
-		open_window(win, "Biomorph");
-	if ((!ft_strcmp("Lambda", i) || !ft_strcmp("5", i)) && (win->fn = 5))
-		open_window(win, "Lambda");
-	if ((!ft_strcmp("Spider", i) || !ft_strcmp("6", i)) && (win->fn = 6))
-		open_window(win, "Spider");
-	if ((!ft_strcmp("Burning_ship", i) || !ft_strcmp("7", i)) && (win->fn = 7))
-		open_window(win, "Burning_ship");
-	if ((!ft_strcmp("Unknown", i) || !ft_strcmp("8", i)) && (win->fn = 8))
-		open_window(win, "Unknown");
-	else
-		return (1);
-	return (0);
+	if ((!ft_strcmp("Julia", n) || !ft_strcmp("1", n)) && (win->fn[i] = 1))
+		win->f_name[i] = ft_strdup("Julia");
+	if ((!ft_strcmp("Mandelbrot", n) || !ft_strcmp("2", n)) && (win->fn[i] = 2))
+		win->f_name[i] = ft_strdup("Mandelbrot");
+	if ((!ft_strcmp("Newton", n) || !ft_strcmp("3", n)) && (win->fn[i] = 3))
+		win->f_name[i] = ft_strdup("Newton");
+	if ((!ft_strcmp("Biomorph", n) || !ft_strcmp("4", n)) && (win->fn[i] = 4))
+		win->f_name[i] = ft_strdup("Biomorph");
+	if ((!ft_strcmp("Lambda", n) || !ft_strcmp("5", n)) && (win->fn[i] = 5))
+		win->f_name[i] = ft_strdup("Lambda");
+	if ((!ft_strcmp("Spider", n) || !ft_strcmp("6", n)) && (win->fn[i] = 6))
+		win->f_name[i] = ft_strdup("Spider");
+	if ((!ft_strcmp("Burning_ship", n) || !ft_strcmp("7", n))
+	&& (win->fn[i] = 7))
+		win->f_name[i] = ft_strdup("Burning_ship");
+	if ((!ft_strcmp("Unknown", n) || !ft_strcmp("8", n)) && (win->fn[i] = 8))
+		win->f_name[i] = ft_strdup("Unknown");
 }
 
-void	print_menu(t_data *win, char *input)
+void	print_menu(t_data *win, char *inp1, char *inp2)
 {
-	int		err;
-
-	err = 0;
-	if (input)
-		err = check_input(win, input);
-	if (!input)
-		err = 1;
-	if (err == 1)
-		write(2, "usage: ./fractol [fract name]\n", 30);
-	write(1, "available fractals:\n", 20);
-	write(1, "-> 1. Julia\n", 12);
-	write(1, "-> 2. Mandelbrot\n", 17);
-	write(1, "-> 3. Newton\n", 13);
-	write(1, "-> 4. Biomorph\n", 15);
-	write(1, "-> 5. Lambda\n", 13);
-	write(1, "-> 6. Spider\n", 13);
-	write(1, "-> 7. Burning_ship\n", 19);
-	write(1, "-> 8. Unknown\n", 14);
+	if (inp1 && !inp2)
+		check_input(win, inp1, 0);
+	else if (inp1 && inp2)
+	{
+		check_input(win, inp1, 0);
+		check_input(win, inp2, 1);
+	}
+	if (!inp1 || !win->f_name[0])
+	{
+		write(2, "usage: ./fractol [fract name]\navailable fractals:\n", 51);
+		write(1, "-> 1. Julia\n", 12);
+		write(1, "-> 2. Mandelbrot\n-> 3. Newton\n", 31);
+		write(1, "-> 4. Biomorph\n-> 5. Lambda\n", 29);
+		write(1, "-> 6. Spider\n-> 7. Burning_ship\n", 33);
+		write(1, "-> 8. Unknown\n", 14);
+		exit(0);
+	}
+	open_window(win);
 }
 
 int		main(int argc, char **argv)
 {
 	t_data	win;
 
+	win.f_name[0] = NULL;
+	win.f_name[1] = NULL;
 	if (argc < 2 || argc > 3)
-		print_menu(&win, NULL);
+		print_menu(&win, NULL, NULL);
 	else if (argc == 2)
-		print_menu(&win, argv[1]);
+		print_menu(&win, argv[1], NULL);
 	else if (argc == 3)
-		two_wind(argv[1], argv[2], &win);
+		print_menu(&win, argv[1], argv[2]);
 	return (0);
 }

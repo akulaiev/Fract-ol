@@ -11,7 +11,6 @@
 /* ************************************************************************** */
 
 #include "fractol.h"
-#include <stdio.h>
 
 static void	deal_with_threads_h(t_fract *w, int i, pthread_t *th_id, int fn)
 {
@@ -31,7 +30,7 @@ static void	deal_with_threads_h(t_fract *w, int i, pthread_t *th_id, int fn)
 		pthread_create(&th_id[i], NULL, set_unknown, w + i);
 }
 
-void	deal_with_threads(t_data *win)
+void		deal_with_threads(t_data *win)
 {
 	int			j;
 	int			iter;
@@ -50,17 +49,17 @@ void	deal_with_threads(t_data *win)
 	iter = -1;
 	while (++iter < NUM_TH)
 	{
-		if (win->fn == 1)
+		if (win->f_n == 1)
 			pthread_create(&th_id[iter], NULL, set_julia, w + iter);
 		else
-			deal_with_threads_h(w, iter, th_id, win->fn);
+			deal_with_threads_h(w, iter, th_id, win->f_n);
 	}
 	iter = -1;
 	while (++iter < NUM_TH)
 		pthread_join(th_id[iter], NULL);
 }
 
-void	img_pixel_put(t_data *win, t_scale scl)
+void		img_pixel_put(t_data *win, t_scale scl)
 {
 	if (scl.x < win->ww && scl.y < win->wl &&
 	scl.x >= 0 && scl.y >= 0)
@@ -68,28 +67,39 @@ void	img_pixel_put(t_data *win, t_scale scl)
 		scl.y * win->size_line)) = scl.col;
 }
 
-void	open_window(t_data *win, char *fract_name)
+void		open_window(t_data *win)
 {
 	int		w;
-	int		l;
+	t_data	win2;
 
+	win->f_n = win->fn[0];
 	params_init(win);
 	win->mlx_p = mlx_init();
 	w = win->ww + 350;
-	l = win->wl;
-	win->mlx_nw = mlx_new_window(win->mlx_p, w, l, fract_name);
+	win->mlx_nw = mlx_new_window(win->mlx_p, w, win->wl, win->f_name[0]);
 	win->mlx_img = mlx_new_image(win->mlx_p, win->ww, win->wl);
 	win->img_ptr = mlx_get_data_addr(win->mlx_img,
 	&win->bits_per_pixel, &win->size_line, &win->endian);
 	open_fract(win);
+	if (win->f_name[1])
+	{
+		params_init(&win2);
+		win2.mlx_p = mlx_init();
+		win2.f_n = win->fn[1];
+		win2.mlx_nw = mlx_new_window(win->mlx_p, w, win->wl, win->f_name[1]);
+		win2.mlx_img = mlx_new_image(win->mlx_p, win2.ww, win2.wl);
+		win2.img_ptr = mlx_get_data_addr(win2.mlx_img,
+		&win2.bits_per_pixel, &win2.size_line, &win2.endian);
+		open_fract(&win2);
+	}
+	mlx_loop(win->mlx_p);
 }
 
-void	open_fract(t_data *win)
+void		open_fract(t_data *win)
 {
 	menu_frame(win);
 	mlx_mouse_hook(win->mlx_nw, mouse_react, (void*)win);
 	mlx_hook(win->mlx_nw, 2, 5, key_react, (void*)win);
 	deal_with_threads(win);
 	mlx_put_image_to_window(win->mlx_p, win->mlx_nw, win->mlx_img, 350, 0);
-	mlx_loop(win->mlx_p);
 }

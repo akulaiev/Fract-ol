@@ -44,7 +44,8 @@ typedef struct	s_data
 	int		c_r;
 	int		c_g;
 	int		c_b;
-	int		fn;
+	int		fn[2];
+	int		f_n;
 	double	c_re;
 	double	c_im;
 	int		mh;
@@ -54,7 +55,8 @@ typedef struct	s_data
 	float	min_im;
 	float	max_im;
 	float	re_f;
- 	float	im_f;
+	float	im_f;
+	char	*f_name[2];
 }				t_data;
 
 typedef struct	s_fract
@@ -74,10 +76,11 @@ typedef struct	s_scale
 	int		iter;
 	int		num_iter;
 	int		col;
+	int		i;
 }				t_scale;
 
-void			print_menu(t_data *win, char *input);
-int				check_input(t_data *win, char *i);
+void			print_menu(t_data *win, char *inp1, char *inp2);
+void			check_input(t_data *win, char *inp, int i);
 void			*set_julia(void *win);
 void			params_init(t_data *win);
 int				key_react(int keycode, void *param);
@@ -88,7 +91,7 @@ void			pic_move(int keycode, void *param);
 void			change_col_channels(int keycode, void *param);
 int				colour_fract(double i, t_data *win);
 void			open_fract(t_data *win);
-void			open_window(t_data *win, char *fract_name);
+void			open_window(t_data *win);
 void			img_pixel_put(t_data *win, t_scale scl);
 void			deal_with_threads(t_data *win);
 void			*set_mandelbrot(void *win);
@@ -105,5 +108,4 @@ void			*set_spider(void *win);
 void			*set_burning_ship(void *win);
 void			check_point_ship(t_scale *s, t_data *w);
 void			*set_unknown(void *win);
-void		two_wind(char *i1, char *i2, t_data *win);
 #endif

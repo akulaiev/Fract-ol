@@ -11,7 +11,6 @@
 /* ************************************************************************** */
 
 #include "fractol.h"
-#include <stdio.h>
 
 int		colour_fract(double i, t_data *win)
 {
@@ -55,8 +54,8 @@ void	params_init(t_data *win)
 	win->max_im = win->min_im + (win->max_re - win->min_re) *
 	win->wl / win->ww;
 	win->re_f = (win->max_re - win->min_re) / (win->ww - 1);
- 	win->im_f = (win->max_im - win->min_im) / (win->wl - 1);
-	if (win->fn == 8)
+	win->im_f = (win->max_im - win->min_im) / (win->wl - 1);
+	if (win->f_n == 8)
 	{
 		win->c_r = 15;
 		win->c_g = 15;
@@ -77,7 +76,6 @@ void	*set_julia(void *win)
 	while (++s.y < w.wl && ++i < w.lines_per_th)
 	{
 		s.x = -1;
-		
 		while (++s.x < w.ww)
 		{
 			s.iter = -1;

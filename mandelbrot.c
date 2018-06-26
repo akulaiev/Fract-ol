@@ -11,20 +11,17 @@
 /* ************************************************************************** */
 
 #include "fractol.h"
-#include <stdio.h>
 
 void			*set_mandelbrot(void *win)
 {
 	t_scale			s;
 	t_data			w;
-	int				i;
 
 	w = *((t_fract*)win)->window;
 	s.y = ((t_fract*)win)->current_y;
-	i = -1;
-	while (++s.y < w.wl && ++i < w.lines_per_th)
+	s.i = -1;
+	while (++s.y < w.wl && ++s.i < w.lines_per_th)
 	{
-		
 		s.x = -1;
 		while (++s.x < w.ww)
 		{

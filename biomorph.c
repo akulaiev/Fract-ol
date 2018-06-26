@@ -1,18 +1,29 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   biomorph.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: akulaiev <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2018/06/26 16:26:08 by akulaiev          #+#    #+#             */
+/*   Updated: 2018/06/26 16:26:10 by akulaiev         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "fractol.h"
-#include <stdio.h>
 
 void	check_point_bio(t_scale *s, t_data *w)
 {
 	s->col = 0;
-
 	while ((++s->iter < s->num_iter && (s->new_re < 80 ||
 	s->new_im < 80 || s->old_re < 80 || s->old_im < 80)))
 	{
 		s->old_re = s->new_re;
 		s->old_im = s->new_im;
-		s->new_re = (s->old_re * s->old_re * s->old_re) - (3 * s->old_im * s->old_im * s->old_re) + w->c_re;
-		s->new_im = (3 * s->old_re * s->old_re * s->old_im) - (s->old_im * s->old_im * s->old_im) + w->c_im;
+		s->new_re = (s->old_re * s->old_re * s->old_re) -
+		(3 * s->old_im * s->old_im * s->old_re) + w->c_re;
+		s->new_im = (3 * s->old_re * s->old_re * s->old_im) -
+		(s->old_im * s->old_im * s->old_im) + w->c_im;
 		s->new_re = fabs(s->new_re);
 		s->new_im = fabs(s->new_im);
 		if ((s->new_re) < 80 && (s->new_im) < 80)
@@ -26,10 +37,9 @@ void	check_point_bio(t_scale *s, t_data *w)
 		s->col /= colour_fract(((double)s->iter / (double)s->num_iter), w);
 	else
 		s->col = colour_fract(((double)s->iter / (double)s->num_iter), w);
-
 }
 
-void			*set_biomorph(void *win)
+void	*set_biomorph(void *win)
 {
 	t_scale			s;
 	t_data			w;

@@ -11,7 +11,6 @@
 /* ************************************************************************** */
 
 #include "fractol.h"
-#include <stdio.h>
 
 void	pic_scale(int keycode, void *param)
 {

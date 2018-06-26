@@ -11,7 +11,6 @@
 /* ************************************************************************** */
 
 #include "fractol.h"
-#include <stdio.h>
 
 void	check_new(t_scale *s, float tmp)
 {
@@ -19,10 +18,13 @@ void	check_new(t_scale *s, float tmp)
 	{
 		s->old_re = s->new_re;
 		s->old_im = s->new_im;
-		tmp = (s->new_re * s->new_re + s->new_im * s->new_im) * (s->new_re * s->new_re + s->new_im * s->new_im);
-		s->new_re = (2 * s->new_re * tmp + s->new_re * s->new_re - s->new_im * s->new_im) / (3 * tmp);
+		tmp = (s->new_re * s->new_re + s->new_im * s->new_im) *
+		(s->new_re * s->new_re + s->new_im * s->new_im);
+		s->new_re = (2 * s->new_re * tmp + s->new_re *
+		s->new_re - s->new_im * s->new_im) / (3 * tmp);
 		s->new_im = (2 * s->new_im * (tmp - s->old_re)) / (3 * tmp);
-		tmp = (s->new_re - s->old_re) * (s->new_re - s->old_re) + (s->new_im - s->old_im) * (s->new_im - s->old_im);
+		tmp = (s->new_re - s->old_re) * (s->new_re - s->old_re) +
+		(s->new_im - s->old_im) * (s->new_im - s->old_im);
 	}
 }
 
@@ -30,13 +32,12 @@ void	*set_newton(void *win)
 {
 	t_scale			s;
 	t_data			w;
-	int				i;
 	float			tmp;
 
 	w = *((t_fract*)win)->window;
-	s.y =((t_fract*)win)->current_y;
-	i = -1;
-	while (++s.y < w.wl && ++i < w.lines_per_th)
+	s.y = ((t_fract*)win)->current_y;
+	s.i = -1;
+	while (++s.y < w.wl && ++s.i < w.lines_per_th)
 	{
 		s.x = -1;
 		while (++s.x < w.ww)

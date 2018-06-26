@@ -1,28 +1,39 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   lambda.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: akulaiev <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2018/06/26 16:34:36 by akulaiev          #+#    #+#             */
+/*   Updated: 2018/06/26 16:34:37 by akulaiev         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "fractol.h"
-#include <stdio.h>
 
 void	check_point_la(t_scale *s, t_data *w)
 {
 	while ((++s->iter < s->num_iter &&
 	(s->new_re * s->new_re + s->new_im * s->new_im < 4)))
 	{
-		s->old_re = s->new_re - (s->new_re * s->new_re) + (s->new_im * s->new_im);
+		s->old_re = s->new_re - (s->new_re * s->new_re) +
+		(s->new_im * s->new_im);
 		s->old_im = s->new_im - (2 * s->new_re * s->new_im);
-		s->new_re =  w->c_re * s->old_re - w->c_im * s->old_im;
-		s->new_im =  w->c_re * s->old_im + w->c_im * s->old_re;
+		s->new_re = w->c_re * s->old_re - w->c_im * s->old_im;
+		s->new_im = w->c_re * s->old_im + w->c_im * s->old_re;
 	}
 }
 
-void			*set_lambda(void *win)
+void	*set_lambda(void *win)
 {
 	t_scale			s;
 	t_data			w;
-	int				i;
 
 	w = *((t_fract*)win)->window;
 	s.y = ((t_fract*)win)->current_y;
-	i = -1;
-	while (++s.y < w.wl && ++i < w.lines_per_th)
+	s.i = -1;
+	while (++s.y < w.wl && ++s.i < w.lines_per_th)
 	{
 		s.x = -1;
 		while (++s.x < w.ww)
