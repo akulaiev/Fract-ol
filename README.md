@@ -9,6 +9,7 @@ It is also possible to open two fractals at a time. For this use two arguments.
 usage: ./fractol [fract name]
 available fractals:
 -> 1. Julia
+
 -> 2. Mandelbrot
 -> 3. Newton
 -> 4. Biomorph
