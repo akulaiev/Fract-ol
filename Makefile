@@ -18,8 +18,7 @@ CFLAGS = -Wall -Werror -Wextra
 LIBFT = ./libft/libft.a
 LIBFT_PATH = ./libft/
 
-MLX = ./minilibx_macos/libmlx.a
-MLX_PATH = ./minilibx_macos/
+MLX = ./minilibx/libmlx.a
 
 SOURCE = main.c event_handle.c julia.c manipulate_fracts.c event_helper.c \
 mandelbrot.c newton.c biomorph.c lambda.c spider.c burning_ship.c unknown.c
@@ -31,10 +30,9 @@ HEADER = -I ./fractol.h
 all: LIBS $(NAME) 
 
 $(NAME): $(O_FILES)
-	$(CC) -lpthread $(MLX) -framework OpenGL -framework AppKit $(CFLAGS) -o $(NAME) $(O_FILES) $(LIBFT)
+	$(CC) -framework OpenGL -framework AppKit $(CFLAGS) -o $(NAME) $(O_FILES) $(LIBFT) $(MLX)
 
 LIBS:
-	make -C $(MLX_PATH)
 	make -C $(LIBFT_PATH)
 
 %.o: %.c
