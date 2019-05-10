@@ -2,7 +2,7 @@
 This project is a simple fractal rendering program.
 
 <p align="center">
-<img src="https://github.com/akulaiev/Fract-ol/blob/master/demo.png" width="350">
+<img src="https://github.com/akulaiev/Fract-ol/blob/master/demo.png" width="550">
 </p>
 To compile the executable, use Make. Then run the executable with fractal's name or number.
 It is also possible to open two fractals at a time. For this use two arguments.
